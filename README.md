@@ -1,69 +1,65 @@
-# CodeIgniter 4 Application Starter
+# Sistem Pengaduan Fasilitas Kampus (Helpdesk CI4) 🚀
 
-## What is CodeIgniter?
+Sistem Pengaduan Fasilitas Kampus adalah aplikasi web berbasis CodeIgniter 4 yang memfasilitasi mahasiswa dalam melaporkan kerusakan fasilitas di lingkungan kampus. Proyek ini menggunakan arsitektur MVC (Model-View-Controller) dan dikembangkan sebagai tugas kolaboratif pengembangan web.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Persyaratan Sistem
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+Pastikan komputer yang digunakan sudah terpasang perangkat lunak berikut sebelum mulai pengerjaan:
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+1. XAMPP atau Laragon untuk menjalankan server Apache dan MySQL secara lokal.
+2. Composer untuk mengelola pustaka PHP CodeIgniter.
+3. Git Bash atau Command Prompt untuk menjalankan perintah berbasis teks.
 
-## Installation & updates
+---
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## Panduan Menjalankan Proyek Secara Lokal
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+Bagi anggota tim yang baru pertama kali mengunduh kode dari repositori ini, ikuti instruksi di bawah ini secara berurutan agar aplikasi dapat berjalan dengan normal di komputer masing-masing.
 
-## Setup
+### 1. Mengunduh Repositori
+Buka terminal aplikasi Git Bash atau Command Prompt di dalam direktori `htdocs` (jika menggunakan XAMPP) atau `www` (jika menggunakan Laragon). Ketik perintah `git clone` diikuti dengan tautan URL repositori GitHub proyek ini (bisa disalin melalui tombol hijau 'Code' di GitHub), kemudian tekan enter. Setelah proses pengunduhan selesai, masuk ke dalam direktori proyek dengan mengetik perintah `cd helpdesk-kampus`.
+Atau bisa juga langsung clone dari VSCode nya
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+### 2. Menginstal Pustaka CodeIgniter
+Pustaka inti dari CodeIgniter tidak diunggah ke GitHub untuk menghemat ruang dan mencegah repositori menjadi berat. Jalankan perintah `composer install` pada terminal untuk mengunduh seluruh berkas pustaka yang dibutuhkan secara otomatis.
 
-## Important Change with index.php
+### 3. Mengatur Konfigurasi Lingkungan
+Cari berkas bernama `env.example` di dalam direktori utama proyek. Salin berkas tersebut dan ubah nama salinannya menjadi `.env`. Buka berkas `.env` tersebut menggunakan teks editor. Cari bagian `CI_ENVIRONMENT` dan ubah nilainya menjadi `development`. Selanjutnya, gulir ke bagian konfigurasi basis data dan sesuaikan nilainya menjadi seperti berikut:
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+```ini
+database.default.hostname = localhost
+database.default.database = db_helpdesk
+database.default.username = root
+database.default.password = 
+database.default.DBDriver = MySQLi
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+**### 4. Menyiapkan Basis Data Kosong**
+Buka panel kontrol XAMPP atau Laragon dan jalankan layanan MySQL. Buka peramban web dan akses halaman localhost/phpmyadmin. Buat sebuah basis data baru dengan nama persis seperti yang tertulis di konfigurasi sebelumnya, yaitu db_helpdesk. Biarkan basis data tersebut kosong tanpa membuat tabel apa pun secara manual.
 
-**Please** read the user guide for a better explanation of how CI4 works!
+**5. Mengeksekusi Migrasi Basis Data**
+Kembali ke terminal yang masih berada di dalam direktori proyek. Jalankan perintah php spark migrate untuk mengeksekusi skrip pembuat tabel. Perintah ini akan secara otomatis membuatkan seluruh struktur tabel beserta relasinya di dalam basis data lokal.
 
-## Repository Management
+**6. Menjalankan Server Lokal**
+Jalankan perintah php spark serve pada terminal untuk menghidupkan server pengembangan CodeIgniter. Buka peramban web dan ketikkan alamat http://localhost:8080 untuk melihat tampilan aplikasi yang sudah berjalan.
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+**### Panduan Membuat Ruang Kerja (Branch) Baru di Git**
+Sebelum mulai mengetik baris kode apa pun untuk proyek sistem pengaduan kita, Kita harus selalu membuat ruang kerja terpisah yang disebut dengan branch agar kode utama tidak rusak jika terjadi kesalahan. Langkah pertama yang paling krusial sebelum membuat ruang kerja baru adalah memastikan komputer kalian memiliki versi kode yang paling baru. Silakan buka terminal dan ketik perintah "git checkout main" untuk kembali ke jalur utama, lalu segera lanjutkan dengan mengetik "git pull origin main" untuk mengunduh semua pembaruan terakhir dari internet ke komputer kalian.
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+Setelah proses pengunduhan pembaruan tersebut selesai tanpa pesan kesalahan, sekarang saatnya kalian membuat ruang kerja milik kalian sendiri. Kalian cukup mengetikkan perintah "git checkout -b nama-fitur-kalian" di dalam terminal. Harap pastikan untuk mengganti bagian akhir perintah tersebut dengan nama tugas spesifik yang sedang kalian kerjakan agar mudah dikenali oleh tim, contohnya seperti mengetik "git checkout -b frontend-halaman-lapor" atau "git checkout -b backend-login-admin". Penggunaan tanda hubung sangat disarankan untuk menggantikan spasi pada penamaan cabang kalian.
 
-## Server Requirements
+Begitu kalian menekan tombol enter setelah perintah pembuat cabang tadi, Git akan secara otomatis merakit ruang kerja baru tersebut dan langsung memindahkan posisi kalian ke dalamnya. Kalian bisa langsung membuka teks editor, mendesain antarmuka, atau meracik logika CodeIgniter dengan perasaan tenang. Segala bentuk perubahan kode, penambahan berkas, atau eksperimen eror yang kalian lakukan di ruang kerja baru ini akan sepenuhnya terisolasi dan sama sekali tidak akan mengganggu hasil kerja anggota tim lainnya.
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+**### Panduan Mengirim Kode (Push) ke Repositori Tim**
+Langkah pertama sebelum mengirim hasil kerja keras kalian ke repositori GitHub adalah memastikan bahwa kalian benar-benar sedang berada di dalam cabang kerja kalian sendiri dan bukan di cabang utama. Silakan ketik perintah "git status" di terminal untuk memverifikasi posisi cabang saat ini serta melihat daftar berkas apa saja yang sudah kalian ubah. Pastikan juga aplikasi CodeIgniter kita sudah berjalan tanpa kendala di komputer lokal kalian sebelum kode tersebut dikirim agar tidak error.
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+Setelah semua kode dipastikan aman, kalian harus memasukkan seluruh berkas yang mengalami perubahan tersebut ke dalam area persiapan Git. Eksekusi perintah "git add ." di dalam terminal kalian. Ingat bahwa tanda titik pada perintah tersebut sangat krusial karena ia bertugas menyapu bersih seluruh pembaruan kode, baik itu penambahan, pengubahan, maupun penghapusan berkas, untuk dimasukkan ke dalam satu paket pengiriman secara otomatis.
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+Tahapan selanjutnya adalah memberikan identitas pada paket pengiriman tersebut agar rekan tim lain paham bagian apa yang baru saja diselesaikan. Jalankan perintah "git commit -m 'Isi pesan kalian di sini'". Pastikan kalian menuliskan pesan yang padat dan informatif di antara tanda kutip tersebut, misalnya dengan menulis "Menyelesaikan tampilan halaman riwayat pengaduan" atau "Memperbaiki celah keamanan pada fitur otentikasi login".
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+Puncak dari proses ini adalah meluncurkan paket kode yang sudah dilabeli tadi ke internet. Kalian hanya perlu menjalankan perintah "git push origin nama-cabang-kalian" pada terminal. Sangat penting untuk menyesuaikan bagian akhir perintah tersebut dengan nama cabang tempat kalian berada saat ini. Begitu kalian menekan enter dan terminal menunjukkan proses unggah telah rampung seratus persen, hasil kerja kalian sudah terjamin keamanannya di server GitHub. 
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+**Aturan Kolaborasi Git**
+- Selalu jalankan perintah git pull origin main setiap kali akan  mulai menulis kode agar mendapatkan pembaruan terbaru dari anggota tim lain dan mencegah bentrok kode.
+- Jangan pernah melakukan commit pada berkas .env untuk menjaga keamanan kata sandi basis data masing-masing anggota.
+- Berikan pesan commit yang jelas dan mendeskripsikan perubahan yang dibuat, contohnya: git commit -m "Membuat halaman login admin".
