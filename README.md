@@ -33,24 +33,25 @@ database.default.database = db_helpdesk
 database.default.username = root
 database.default.password = 
 database.default.DBDriver = MySQLi
+```
 
 ### 4. Menyiapkan Basis Data Kosong
 Buka panel kontrol XAMPP atau Laragon dan jalankan layanan MySQL. Buka peramban web dan akses halaman localhost/phpmyadmin. Buat sebuah basis data baru dengan nama persis seperti yang tertulis di konfigurasi sebelumnya, yaitu db_helpdesk. Biarkan basis data tersebut kosong tanpa membuat tabel apa pun secara manual.
 
-**5. Mengeksekusi Migrasi Basis Data**
+### 5. Mengeksekusi Migrasi Basis Data
 Kembali ke terminal yang masih berada di dalam direktori proyek. Jalankan perintah php spark migrate untuk mengeksekusi skrip pembuat tabel. Perintah ini akan secara otomatis membuatkan seluruh struktur tabel beserta relasinya di dalam basis data lokal.
 
-**6. Menjalankan Server Lokal**
+### 6. Menjalankan Server Lokal
 Jalankan perintah php spark serve pada terminal untuk menghidupkan server pengembangan CodeIgniter. Buka peramban web dan ketikkan alamat http://localhost:8080 untuk melihat tampilan aplikasi yang sudah berjalan.
 
-**### Panduan Membuat Ruang Kerja (Branch) Baru di Git**
+### Panduan Membuat Ruang Kerja (Branch) Baru di Git
 Sebelum mulai mengetik baris kode apa pun untuk proyek sistem pengaduan kita, Kita harus selalu membuat ruang kerja terpisah yang disebut dengan branch agar kode utama tidak rusak jika terjadi kesalahan. Langkah pertama yang paling krusial sebelum membuat ruang kerja baru adalah memastikan komputer kalian memiliki versi kode yang paling baru. Silakan buka terminal dan ketik perintah "git checkout main" untuk kembali ke jalur utama, lalu segera lanjutkan dengan mengetik "git pull origin main" untuk mengunduh semua pembaruan terakhir dari internet ke komputer kalian.
 
 Setelah proses pengunduhan pembaruan tersebut selesai tanpa pesan kesalahan, sekarang saatnya kalian membuat ruang kerja milik kalian sendiri. Kalian cukup mengetikkan perintah "git checkout -b nama-fitur-kalian" di dalam terminal. Harap pastikan untuk mengganti bagian akhir perintah tersebut dengan nama tugas spesifik yang sedang kalian kerjakan agar mudah dikenali oleh tim, contohnya seperti mengetik "git checkout -b frontend-halaman-lapor" atau "git checkout -b backend-login-admin". Penggunaan tanda hubung sangat disarankan untuk menggantikan spasi pada penamaan cabang kalian.
 
 Begitu kalian menekan tombol enter setelah perintah pembuat cabang tadi, Git akan secara otomatis merakit ruang kerja baru tersebut dan langsung memindahkan posisi kalian ke dalamnya. Kalian bisa langsung membuka teks editor, mendesain antarmuka, atau meracik logika CodeIgniter dengan perasaan tenang. Segala bentuk perubahan kode, penambahan berkas, atau eksperimen eror yang kalian lakukan di ruang kerja baru ini akan sepenuhnya terisolasi dan sama sekali tidak akan mengganggu hasil kerja anggota tim lainnya.
 
-**### Panduan Mengirim Kode (Push) ke Repositori Tim**
+### Panduan Mengirim Kode (Push) ke Repositori Tim
 Langkah pertama sebelum mengirim hasil kerja keras kalian ke repositori GitHub adalah memastikan bahwa kalian benar-benar sedang berada di dalam cabang kerja kalian sendiri dan bukan di cabang utama. Silakan ketik perintah "git status" di terminal untuk memverifikasi posisi cabang saat ini serta melihat daftar berkas apa saja yang sudah kalian ubah. Pastikan juga aplikasi CodeIgniter kita sudah berjalan tanpa kendala di komputer lokal kalian sebelum kode tersebut dikirim agar tidak error.
 
 Setelah semua kode dipastikan aman, kalian harus memasukkan seluruh berkas yang mengalami perubahan tersebut ke dalam area persiapan Git. Eksekusi perintah "git add ." di dalam terminal kalian. Ingat bahwa tanda titik pada perintah tersebut sangat krusial karena ia bertugas menyapu bersih seluruh pembaruan kode, baik itu penambahan, pengubahan, maupun penghapusan berkas, untuk dimasukkan ke dalam satu paket pengiriman secara otomatis.
@@ -59,7 +60,7 @@ Tahapan selanjutnya adalah memberikan identitas pada paket pengiriman tersebut a
 
 Puncak dari proses ini adalah meluncurkan paket kode yang sudah dilabeli tadi ke internet. Kalian hanya perlu menjalankan perintah "git push origin nama-cabang-kalian" pada terminal. Sangat penting untuk menyesuaikan bagian akhir perintah tersebut dengan nama cabang tempat kalian berada saat ini. Begitu kalian menekan enter dan terminal menunjukkan proses unggah telah rampung seratus persen, hasil kerja kalian sudah terjamin keamanannya di server GitHub. 
 
-**Aturan Kolaborasi Git**
+### Aturan Kolaborasi Git
 - Selalu jalankan perintah git pull origin main setiap kali akan  mulai menulis kode agar mendapatkan pembaruan terbaru dari anggota tim lain dan mencegah bentrok kode.
 - Jangan pernah melakukan commit pada berkas .env untuk menjaga keamanan kata sandi basis data masing-masing anggota.
 - Berikan pesan commit yang jelas dan mendeskripsikan perubahan yang dibuat, contohnya: git commit -m "Membuat halaman login admin".
