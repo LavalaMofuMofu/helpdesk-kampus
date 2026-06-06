@@ -34,7 +34,7 @@ database.default.username = root
 database.default.password = 
 database.default.DBDriver = MySQLi
 
-**### 4. Menyiapkan Basis Data Kosong**
+### 4. Menyiapkan Basis Data Kosong
 Buka panel kontrol XAMPP atau Laragon dan jalankan layanan MySQL. Buka peramban web dan akses halaman localhost/phpmyadmin. Buat sebuah basis data baru dengan nama persis seperti yang tertulis di konfigurasi sebelumnya, yaitu db_helpdesk. Biarkan basis data tersebut kosong tanpa membuat tabel apa pun secara manual.
 
 **5. Mengeksekusi Migrasi Basis Data**
