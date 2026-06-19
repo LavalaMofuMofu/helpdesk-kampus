@@ -22,7 +22,12 @@ class Users extends Migration
             'nomor_induk' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '20',
-                'unique'     => true, // NIM/NIP tidak boleh ada yang kembar
+                'unique'     => true,
+            ],
+            'email' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '100',
+                'null'       => true,
             ],
             'password' => [
                 'type'       => 'VARCHAR',
@@ -43,16 +48,12 @@ class Users extends Migration
             ],
         ]);
         
-        // Membuat Primary Key
         $this->forge->addKey('id', true);
-        
-        // Mengeksekusi pembuatan tabel
         $this->forge->createTable('users');
     }
 
     public function down()
     {
-        // Perintah untuk menghapus tabel (saat rollback)
         $this->forge->dropTable('users');
     }
 }
