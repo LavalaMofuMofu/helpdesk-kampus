@@ -59,12 +59,12 @@ class Home extends BaseController
 
     public function profil($role)
     {
-        // Simulasi data user (Nanti diganti data dari database)
+        // Simulasi data user yang sudah diperbaiki tanda kutip dan penamaannya
         $data = [
-            'nama' => ($role == 'admin') ? 'Administrator Kampus' : 'Muhammad Irgi Fahrezha',
-            'role' => $role,
+            'nama'        => ($role == 'admin') ? 'Administrator Kampus' : 'Muhammad Irgi Fahrezha',
+            'role'        => $role,
             'nomor_induk' => ($role == 'admin') ? '198012345678' : '2410817210005',
-            'email' => ($role == 'admin') ? 'admin@kampus.ac.id' : 'irgi@mhs.ac.id'
+            'email'       => ($role == 'admin') ? 'admin@kampus.ac.id' : 'irgi@mhs.ac.id'
         ];
         
         return view('profil', $data);
