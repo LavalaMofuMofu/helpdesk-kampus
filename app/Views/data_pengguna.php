@@ -39,7 +39,7 @@
                     <input type="text" placeholder="Cari Nama atau NIM/NIP..." class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
-                <button class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-md font-semibold text-sm transition shadow-md flex items-center justify-center space-x-2">
+                <button id="btnTambahPengguna" class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-md font-semibold text-sm transition shadow-md flex items-center justify-center space-x-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                     <span>Tambah Pengguna Baru</span>
                 </button>
@@ -104,11 +104,115 @@
             </div>
 
         </div>
+
+        <div id="modalTambah" class="fixed inset-0 z-[100] flex items-center justify-center hidden bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden transform scale-95 transition-transform duration-300 relative">
+                
+                <div class="bg-blue-600 px-6 py-4 flex justify-between items-center text-white">
+                    <h3 class="font-bold text-lg tracking-wide">Tambah Pengguna</h3>
+                    <button id="closeModal" type="button" class="text-white hover:text-blue-200 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                
+                <form id="formTambahPengguna" class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Nama Lengkap</label>
+                            <input type="text" required placeholder="Masukkan nama lengkap" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">NIM / NIP</label>
+                            <input type="text" required placeholder="Masukkan nomor induk" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Peran (Role)</label>
+                            <select required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700 cursor-pointer">
+                                <option value="" disabled selected>Pilih hak akses...</option>
+                                <option value="mahasiswa">Mahasiswa</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Password Sementara</label>
+                            <input type="password" required placeholder="Buat password awal" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-end space-x-3">
+                        <button type="button" id="batalModal" class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-md transition text-sm">Batal</button>
+                        <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md transition text-sm shadow-md">Simpan Data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 
     <footer class="relative z-10 w-full bg-gray-800 text-gray-300 py-6 px-10 flex justify-between items-center text-sm mt-auto">
         <p>Helpdesk Kampus Panel Admin v1.0</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        const modal = document.getElementById('modalTambah');
+        const btnTambah = document.getElementById('btnTambahPengguna');
+        const closeBtn = document.getElementById('closeModal');
+        const batalBtn = document.getElementById('batalModal');
+        const formTambah = document.getElementById('formTambahPengguna');
+
+        // Fungsi Membuka Modal dengan Animasi
+        btnTambah.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            // Sedikit delay agar transisi CSS terbaca
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        });
+
+        // Fungsi Menutup Modal dengan Animasi
+        const closeModalFunc = () => {
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            
+            // Tunggu animasi selesai baru sembunyikan elemennya
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                formTambah.reset(); // Mengosongkan form kembali
+            }, 300);
+        };
+
+        // Pasang trigger tutup ke tombol silang (X) dan tombol Batal
+        closeBtn.addEventListener('click', closeModalFunc);
+        batalBtn.addEventListener('click', closeModalFunc);
+
+        // Mencegah form tertutup saat area dalam form diklik, 
+        // tapi menutup jika area background luar/blur diklik
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModalFunc();
+            }
+        });
+
+        // Logika saat tombol "Simpan Data" ditekan
+        formTambah.addEventListener('submit', function(e) {
+            e.preventDefault(); // Tahan reload halaman
+            
+            closeModalFunc(); // Tutup pop-up form
+            
+            // Tampilkan notifikasi sukses
+            Swal.fire({
+                title: 'Berhasil Disimpan!',
+                text: 'Data pengguna baru telah berhasil ditambahkan ke dalam database.',
+                icon: 'success',
+                confirmButtonColor: '#2563EB',
+                confirmButtonText: 'Tutup'
+            });
+        });
+    </script>
 
 </body>
 </html>
