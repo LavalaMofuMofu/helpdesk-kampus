@@ -39,37 +39,65 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
             
             <a href="/form_laporan?kategori=Fasilitas Gedung %26 Kelas" class="bg-white rounded-lg p-4 flex items-center space-x-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <img src="https://placehold.co/100x100/EFF6FF/1E3A8A?text=Gedung+%26%0AKelas" alt="Fasilitas Gedung" class="w-20 h-20 object-cover rounded-md border border-blue-100 shadow-sm">
+                <div class="w-20 h-20 flex-shrink-0 bg-blue-50 text-blue-800 rounded-md border border-blue-100 shadow-sm flex items-center justify-center">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                </div>
                 <span class="font-bold text-gray-800 text-lg uppercase tracking-wide">Fasilitas Gedung & Kelas</span>
             </a>
 
             <a href="/form_laporan?kategori=Laboratorium Komputer" class="bg-white rounded-lg p-4 flex items-center space-x-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <img src="https://placehold.co/100x100/EFF6FF/1E3A8A?text=Lab%0AKomputer" alt="Laboratorium Komputer" class="w-20 h-20 object-cover rounded-md border border-blue-100 shadow-sm">
+                <div class="w-20 h-20 flex-shrink-0 bg-blue-50 text-blue-800 rounded-md border border-blue-100 shadow-sm flex items-center justify-center">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
                 <span class="font-bold text-gray-800 text-lg uppercase tracking-wide">Laboratorium Komputer</span>
             </a>
 
             <a href="/form_laporan?kategori=Jaringan %26 Akses Wi-Fi" class="bg-white rounded-lg p-4 flex items-center space-x-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <img src="https://placehold.co/100x100/EFF6FF/1E3A8A?text=Jaringan%0A%26+Wi-Fi" alt="Jaringan dan Wi-Fi" class="w-20 h-20 object-cover rounded-md border border-blue-100 shadow-sm">
+                <div class="w-20 h-20 flex-shrink-0 bg-blue-50 text-blue-800 rounded-md border border-blue-100 shadow-sm flex items-center justify-center">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
+                    </svg>
+                </div>
                 <span class="font-bold text-gray-800 text-lg uppercase tracking-wide">Jaringan & Akses Wi-Fi</span>
             </a>
 
             <a href="/form_laporan?kategori=Layanan Akademik %26 KRS" class="bg-white rounded-lg p-4 flex items-center space-x-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <img src="https://placehold.co/100x100/EFF6FF/1E3A8A?text=Layanan%0AAkademik" alt="Layanan Akademik" class="w-20 h-20 object-cover rounded-md border border-blue-100 shadow-sm">
+                <div class="w-20 h-20 flex-shrink-0 bg-blue-50 text-blue-800 rounded-md border border-blue-100 shadow-sm flex items-center justify-center">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
                 <span class="font-bold text-gray-800 text-lg uppercase tracking-wide">Layanan Akademik & KRS</span>
             </a>
 
             <a href="/form_laporan?kategori=Kebersihan Lingkungan" class="bg-white rounded-lg p-4 flex items-center space-x-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <img src="https://placehold.co/100x100/EFF6FF/1E3A8A?text=Area%0AKampus" alt="Kebersihan Lingkungan" class="w-20 h-20 object-cover rounded-md border border-blue-100 shadow-sm">
+                <div class="w-20 h-20 flex-shrink-0 bg-blue-50 text-blue-800 rounded-md border border-blue-100 shadow-sm flex items-center justify-center">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </div>
                 <span class="font-bold text-gray-800 text-lg uppercase tracking-wide">Kebersihan Lingkungan</span>
             </a>
 
             <a href="/form_laporan?kategori=Keamanan %26 Fasilitas Parkir" class="bg-white rounded-lg p-4 flex items-center space-x-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <img src="https://placehold.co/100x100/EFF6FF/1E3A8A?text=Area%0AParkir" alt="Keamanan dan Parkir" class="w-20 h-20 object-cover rounded-md border border-blue-100 shadow-sm">
+                <div class="w-20 h-20 flex-shrink-0 bg-blue-50 text-blue-800 rounded-md border border-blue-100 shadow-sm flex items-center justify-center">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
                 <span class="font-bold text-gray-800 text-lg uppercase tracking-wide">Keamanan & Fasilitas Parkir</span>
             </a>
 
             <a href="/form_laporan?kategori=Lainnya" class="bg-white rounded-lg p-4 flex items-center space-x-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 md:col-span-2 md:w-1/2 md:mx-auto">
-                <img src="https://placehold.co/100x100/EFF6FF/1E3A8A?text=Lainnya" alt="Lainnya" class="w-20 h-20 object-cover rounded-md border border-blue-100 shadow-sm">
+                <div class="w-20 h-20 flex-shrink-0 bg-blue-50 text-blue-800 rounded-md border border-blue-100 shadow-sm flex items-center justify-center">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
                 <span class="font-bold text-gray-800 text-lg uppercase tracking-wide">Lainnya</span>
             </a>
 
