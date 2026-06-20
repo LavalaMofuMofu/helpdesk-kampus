@@ -37,7 +37,7 @@
         <!-- Card Form -->
         <div class="bg-white w-full max-w-3xl rounded-xl shadow-2xl p-8 md:p-10">
             
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form id="formLaporan" action="" method="POST" enctype="multipart/form-data">
                 
                 <div class="mb-6 border-b pb-6 text-center">
                     <label class="block text-sm font-bold text-gray-800 mb-2 uppercase tracking-wide">Kategori Terpilih</label>
@@ -88,6 +88,30 @@
             </svg>
         </button>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('formLaporan').addEventListener('submit', function(e) {
+            // Mencegah form memuat ulang halaman secara otomatis (karena masih prototipe UI)
+            e.preventDefault(); 
+
+            // Memunculkan Pop-up SweetAlert
+            Swal.fire({
+                title: 'Laporan Terkirim!',
+                text: 'Terima kasih, laporan pengaduan Anda telah berhasil masuk ke sistem Helpdesk.',
+                icon: 'success',
+                confirmButtonColor: '#2563EB', // Warna senada dengan bg-blue-600 Tailwind
+                confirmButtonText: 'Lihat Riwayat Laporan',
+                allowOutsideClick: false // Mencegah pop-up tertutup jika user klik di luar area
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika tombol diklik, arahkan mahasiswa ke halaman riwayat laporan
+                    window.location.href = '/riwayat_laporan';
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
