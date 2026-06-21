@@ -55,7 +55,6 @@
                     </div>
                     <div class="flex flex-wrap gap-2 mt-4">
                         <a href="/admin_tanggapan?id=1" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Tanggapi</a>
-                        <button class="bg-gray-500 hover:bg-gray-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Cetak</button>
                         <button class="btn-hapus bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus</button>
                     </div>
                 </div>
@@ -76,7 +75,6 @@
                     </div>
                     <div class="flex flex-wrap gap-2 mt-4">
                         <a href="/admin_tanggapan?id=2" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Tanggapi</a>
-                        <button class="bg-gray-500 hover:bg-gray-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Cetak</button>
                         <button class="btn-hapus bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus</button>
                     </div>
                 </div>
@@ -98,7 +96,6 @@
                         <p class="text-gray-500 text-sm line-clamp-2"><span class="font-semibold">Isi Laporan:</span> Sampah di area taman parkir belakang menumpuk dan menimbulkan bau tidak sedap.</p>
                     </div>
                     <div class="flex flex-wrap gap-2 mt-4">
-                        <button class="bg-gray-400 hover:bg-gray-500 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Cetak Arsip</button>
                         <button class="btn-hapus bg-red-400 hover:bg-red-500 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus Riwayat</button>
                     </div>
                 </div>
@@ -126,7 +123,7 @@
                 e.preventDefault();
                 
                 // Mencari elemen pembungkus laporan (card) terdekat dari tombol yang diklik
-                const cardLaporan = this.closest('.bg-white'); 
+                const cardLaporan = this.closest('.shadow-lg'); 
 
                 Swal.fire({
                     title: 'Hapus Laporan Ini?',
