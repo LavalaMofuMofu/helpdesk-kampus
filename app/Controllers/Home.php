@@ -44,7 +44,7 @@ class Home extends BaseController
 
     public function adminTanggapan()
     {
-        return view('admin_tanggapan'); // View ini belum kita buat, nanti bisa diarahkan ke halaman lain atau dibuat menyusul
+        return view('admin_tanggapan');
     }
 
     public function dataTanggapan()

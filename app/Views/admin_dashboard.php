@@ -44,9 +44,10 @@
                         <p class="text-sm font-bold text-blue-800 uppercase tracking-wide mb-2">Kategori: Laboratorium Komputer</p>
                         <p class="text-gray-700 text-sm md:text-base line-clamp-3"><span class="font-semibold">Isi Laporan:</span> PC Komputer di Lab C nomor 12 mengalami bluescreen berulang kali saat praktikum basis data berlangsung.</p>
                     </div>
-                    <div class="flex space-x-3 mt-4">
+                    <div class="flex flex-wrap gap-2 mt-4">
                         <a href="/admin_tanggapan?id=1" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Tanggapi</a>
-                        <button class="bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Cetak</button>
+                        <button class="bg-gray-500 hover:bg-gray-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Cetak</button>
+                        <button class="btn-hapus bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus</button>
                     </div>
                 </div>
                 <div class="bg-yellow-400 w-16 md:w-20 flex items-center justify-center flex-shrink-0">
@@ -64,9 +65,10 @@
                         <p class="text-sm font-bold text-blue-800 uppercase tracking-wide mb-2">Kategori: Jaringan & Akses Wi-Fi</p>
                         <p class="text-gray-700 text-sm md:text-base line-clamp-3"><span class="font-semibold">Isi Laporan:</span> Akses Wi-Fi Gedung Utama tidak bisa terhubung sejak pagi, muncul keterangan IP Configuration Failure.</p>
                     </div>
-                    <div class="flex space-x-3 mt-4">
-                        <a href="/admin_tanggapan?id=2" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Tanggapi</a>
-                        <button class="bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Cetak</button>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <a href="/admin_tanggapan?id=1" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Tanggapi</a>
+                        <button class="bg-gray-500 hover:bg-gray-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Cetak</button>
+                        <button class="btn-hapus bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus</button>
                     </div>
                 </div>
                 <div class="bg-yellow-400 w-16 md:w-20 flex items-center justify-center flex-shrink-0">
@@ -105,6 +107,52 @@
         <p>Helpdesk Kampus Panel Admin v1.0</p>
         <p class="text-xs text-gray-500">Loged in as Admin</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Menangkap semua tombol yang memiliki class 'btn-hapus'
+        const tombolHapus = document.querySelectorAll('.btn-hapus');
+
+        tombolHapus.forEach(tombol => {
+            tombol.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Mencari elemen pembungkus laporan (card) terdekat dari tombol yang diklik
+                const cardLaporan = this.closest('.bg-white'); 
+
+                Swal.fire({
+                    title: 'Hapus Laporan Ini?',
+                    text: "Tindakan ini tidak dapat dibatalkan. Laporan akan dihapus permanen dari sistem!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#EF4444', // Warna Merah Tailwind
+                    cancelButtonColor: '#6B7280', // Warna Abu-abu Tailwind
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Jika 'Ya' diklik, buat animasi memudar (fade out)
+                        cardLaporan.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                        cardLaporan.style.opacity = "0";
+                        cardLaporan.style.transform = "scale(0.95)";
+                        
+                        // Hapus elemen HTML dari layar setelah animasi selesai
+                        setTimeout(() => {
+                            cardLaporan.remove();
+                            
+                            // Munculkan notifikasi sukses
+                            Swal.fire(
+                                'Terhapus!',
+                                'Data pengaduan berhasil dihapus dari panel.',
+                                'success'
+                            );
+                        }, 500);
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
