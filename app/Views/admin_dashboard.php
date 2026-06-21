@@ -29,11 +29,20 @@
     </nav>
 
     <main class="relative z-10 flex-grow flex flex-col items-center pt-8 pb-12 px-4 w-full">
+        <h2 class="text-white text-3xl font-bold mb-6 tracking-wide drop-shadow-md text-center">MANAJEMEN PENGADUAN</h2>
         
-        <h2 class="text-white text-3xl font-bold mb-8 tracking-wide drop-shadow-md">DATA PENGADUAN MASUK</h2>
+        <div class="flex justify-center w-full max-w-5xl mb-8">
+            <div class="bg-blue-800/50 p-1.5 rounded-xl inline-flex backdrop-blur-sm border border-blue-400/30 shadow-inner">
+                <button id="btnTabProses" class="px-6 py-2.5 rounded-lg bg-white text-blue-700 font-bold shadow-md transition-all text-sm md:text-base">
+                    Laporan Masuk (Proses)
+                </button>
+                <button id="btnTabSelesai" class="px-6 py-2.5 rounded-lg text-blue-100 hover:text-white font-medium transition-all text-sm md:text-base">
+                    Riwayat Laporan (Selesai)
+                </button>
+            </div>
+        </div>
 
-        <div class="w-full max-w-5xl space-y-6 mb-12">
-            
+        <div id="kontenProses" class="w-full max-w-5xl space-y-6 block transition-opacity duration-300">
             <div class="bg-white rounded-lg shadow-lg flex overflow-hidden hover:shadow-xl transition-all duration-300">
                 <div class="w-32 md:w-48 flex-shrink-0">
                     <img src="https://placehold.co/300x300/EFF6FF/1E3A8A?text=Foto+Aduan" alt="Bukti" class="w-full h-full object-cover">
@@ -66,7 +75,7 @@
                         <p class="text-gray-700 text-sm md:text-base line-clamp-3"><span class="font-semibold">Isi Laporan:</span> Akses Wi-Fi Gedung Utama tidak bisa terhubung sejak pagi, muncul keterangan IP Configuration Failure.</p>
                     </div>
                     <div class="flex flex-wrap gap-2 mt-4">
-                        <a href="/admin_tanggapan?id=1" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Tanggapi</a>
+                        <a href="/admin_tanggapan?id=2" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Tanggapi</a>
                         <button class="bg-gray-500 hover:bg-gray-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Cetak</button>
                         <button class="btn-hapus bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus</button>
                     </div>
@@ -75,24 +84,22 @@
                     <span class="transform -rotate-90 text-white font-extrabold tracking-widest text-sm md:text-base">PROSES</span>
                 </div>
             </div>
-
         </div>
 
-        <h3 class="text-white text-xl font-bold mb-6 tracking-wide drop-shadow-md text-center uppercase">Data Selesai Tertanggapi</h3>
-        
-        <div class="w-full max-w-5xl space-y-6">
+        <div id="kontenSelesai" class="w-full max-w-5xl space-y-6 hidden transition-opacity duration-300">
             <div class="bg-white/90 rounded-lg shadow-lg flex overflow-hidden opacity-90">
                 <div class="w-32 md:w-48 flex-shrink-0 bg-gray-200">
                     <img src="https://placehold.co/300x300/EFF6FF/1E3A8A?text=Selesai" alt="Bukti" class="w-full h-full object-cover grayscale">
                 </div>
                 <div class="flex-grow p-5 flex flex-col justify-between">
                     <div>
-                        <p class="text-xs text-gray-400 mb-1">Tanggal: <span class="font-medium text-gray-600">10 Juni 2026</span></p>
+                        <p class="text-xs text-gray-400 mb-1">Tanggal Selesai: <span class="font-medium text-gray-600">10 Juni 2026</span></p>
                         <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Kategori: Kebersihan Lingkungan</p>
                         <p class="text-gray-500 text-sm line-clamp-2"><span class="font-semibold">Isi Laporan:</span> Sampah di area taman parkir belakang menumpuk dan menimbulkan bau tidak sedap.</p>
                     </div>
-                    <div class="mt-4">
-                        <button class="bg-red-400 hover:bg-red-500 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Cetak Arsip</button>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <button class="bg-gray-400 hover:bg-gray-500 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Cetak Arsip</button>
+                        <button class="btn-hapus bg-red-400 hover:bg-red-500 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus Riwayat</button>
                     </div>
                 </div>
                 <div class="bg-green-500 w-16 md:w-20 flex items-center justify-center flex-shrink-0">
@@ -151,6 +158,37 @@
                     }
                 });
             });
+        });
+    </script>
+
+    <script>
+        const btnProses = document.getElementById('btnTabProses');
+        const btnSelesai = document.getElementById('btnTabSelesai');
+        const kontenProses = document.getElementById('kontenProses');
+        const kontenSelesai = document.getElementById('kontenSelesai');
+
+        // Fungsi saat Tab Proses diklik
+        btnProses.addEventListener('click', () => {
+            // Tampilkan konten Proses, Sembunyikan Selesai
+            kontenProses.classList.remove('hidden');
+            kontenSelesai.classList.add('hidden');
+            
+            // Ubah gaya tombol menjadi Aktif
+            btnProses.className = "px-6 py-2.5 rounded-lg bg-white text-blue-700 font-bold shadow-md transition-all text-sm md:text-base";
+            // Ubah gaya tombol Selesai menjadi Pasif
+            btnSelesai.className = "px-6 py-2.5 rounded-lg text-blue-100 hover:text-white font-medium transition-all text-sm md:text-base";
+        });
+
+        // Fungsi saat Tab Selesai diklik
+        btnSelesai.addEventListener('click', () => {
+            // Tampilkan konten Selesai, Sembunyikan Proses
+            kontenSelesai.classList.remove('hidden');
+            kontenProses.classList.add('hidden');
+            
+            // Ubah gaya tombol menjadi Aktif
+            btnSelesai.className = "px-6 py-2.5 rounded-lg bg-white text-blue-700 font-bold shadow-md transition-all text-sm md:text-base";
+            // Ubah gaya tombol Proses menjadi Pasif
+            btnProses.className = "px-6 py-2.5 rounded-lg text-blue-100 hover:text-white font-medium transition-all text-sm md:text-base";
         });
     </script>
 
