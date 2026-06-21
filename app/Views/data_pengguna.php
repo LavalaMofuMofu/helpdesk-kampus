@@ -69,7 +69,7 @@
                             <td class="p-4 text-center text-gray-500">01 Jan 2026</td>
                             <td class="p-4 text-center">
                                 <div class="flex justify-center space-x-2">
-                                    <button class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm" title="Edit Data">
+                                    <button class="btn-edit-pengguna bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm" title="Edit Data">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                     </button>
                                     <button class="bg-gray-300 text-white p-2 rounded cursor-not-allowed" title="Admin Utama Tidak Bisa Dihapus" disabled>
@@ -89,10 +89,10 @@
                             <td class="p-4 text-center text-gray-500">15 Jun 2026</td>
                             <td class="p-4 text-center">
                                 <div class="flex justify-center space-x-2">
-                                    <button class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm" title="Edit Data">
+                                    <button class="btn-edit-pengguna bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm" title="Edit Data">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                     </button>
-                                    <button class="bg-red-500 hover:bg-red-600 text-white p-2 rounded transition shadow-sm" title="Hapus Data">
+                                    <button class="btn-hapus-pengguna bg-red-500 hover:bg-red-600 text-white p-2 rounded transition shadow-sm" title="Hapus Data">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     </button>
                                 </div>
@@ -142,6 +142,47 @@
                     <div class="mt-8 flex justify-end space-x-3">
                         <button type="button" id="batalModal" class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-md transition text-sm">Batal</button>
                         <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md transition text-sm shadow-md">Simpan Data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="modalEdit" class="fixed inset-0 z-[100] flex items-center justify-center hidden bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden transform scale-95 transition-transform duration-300 relative">
+                
+                <div class="bg-yellow-500 px-6 py-4 flex justify-between items-center text-white">
+                    <h3 class="font-bold text-lg tracking-wide">Edit Data Pengguna</h3>
+                    <button id="closeModalEdit" type="button" class="text-white hover:text-yellow-100 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                
+                <form id="formEditPengguna" class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Nama Lengkap</label>
+                            <input type="text" value="Data Simulasi Nama" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">NIM / NIP</label>
+                            <input type="text" value="1234567890" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Peran (Role)</label>
+                            <select required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm bg-white text-gray-700 cursor-pointer">
+                                <option value="mahasiswa" selected>Mahasiswa</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Reset Password (Opsional)</label>
+                            <input type="password" placeholder="Kosongkan jika tidak ingin mengubah password" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-end space-x-3">
+                        <button type="button" id="batalModalEdit" class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-md transition text-sm">Batal</button>
+                        <button type="submit" class="px-5 py-2.5 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-md transition text-sm shadow-md">Simpan Perubahan</button>
                     </div>
                 </form>
             </div>
@@ -210,6 +251,78 @@
                 icon: 'success',
                 confirmButtonColor: '#2563EB',
                 confirmButtonText: 'Tutup'
+            });
+        });
+
+        // ================= LOGIKA MODAL EDIT =================
+        const modalEdit = document.getElementById('modalEdit');
+        const btnsEdit = document.querySelectorAll('.btn-edit-pengguna');
+        const closeBtnEdit = document.getElementById('closeModalEdit');
+        const batalBtnEdit = document.getElementById('batalModalEdit');
+        const formEdit = document.getElementById('formEditPengguna');
+
+        const closeModalEditFunc = () => {
+            modalEdit.classList.add('opacity-0');
+            modalEdit.querySelector('div').classList.remove('scale-100');
+            modalEdit.querySelector('div').classList.add('scale-95');
+            setTimeout(() => { modalEdit.classList.add('hidden'); }, 300);
+        };
+
+        // Buka modal saat tombol kuning diklik
+        btnsEdit.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modalEdit.classList.remove('hidden');
+                setTimeout(() => {
+                    modalEdit.classList.remove('opacity-0');
+                    modalEdit.querySelector('div').classList.remove('scale-95');
+                    modalEdit.querySelector('div').classList.add('scale-100');
+                }, 10);
+            });
+        });
+
+        closeBtnEdit.addEventListener('click', closeModalEditFunc);
+        batalBtnEdit.addEventListener('click', closeModalEditFunc);
+
+        // Submit form edit
+        formEdit.addEventListener('submit', function(e) {
+            e.preventDefault();
+            closeModalEditFunc();
+            Swal.fire({
+                title: 'Berhasil Diperbarui!',
+                text: 'Data pengguna telah berhasil diperbarui.',
+                icon: 'success',
+                confirmButtonColor: '#EAB308', // Warna kuning senada
+                confirmButtonText: 'Tutup'
+            });
+        });
+
+        // ================= LOGIKA TOMBOL HAPUS =================
+        const btnsHapus = document.querySelectorAll('.btn-hapus-pengguna');
+
+        btnsHapus.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const barisTabel = this.closest('tr'); // Mengambil baris (row) tabel
+
+                Swal.fire({
+                    title: 'Hapus Pengguna Ini?',
+                    text: "Akun ini akan dihapus secara permanen dan tidak bisa mengakses sistem lagi!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#EF4444',
+                    cancelButtonColor: '#6B7280',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Animasi memudar sebelum baris dihapus
+                        barisTabel.style.transition = "opacity 0.5s ease";
+                        barisTabel.style.opacity = "0";
+                        setTimeout(() => {
+                            barisTabel.remove();
+                            Swal.fire('Terhapus!', 'Pengguna berhasil dihapus dari sistem.', 'success');
+                        }, 500);
+                    }
+                });
             });
         });
     </script>
