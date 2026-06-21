@@ -69,11 +69,11 @@
                             </td>
                             <td class="p-4 text-center">
                                 <div class="flex justify-center space-x-2">
-                                    <button class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm" title="Edit Data">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    <button class="btn-edit-tanggapan bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm" title="Edit Data">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                     </button>
-                                    <button class="bg-red-500 hover:bg-red-600 text-white p-2 rounded transition shadow-sm" title="Hapus Data">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    <button class="btn-hapus-tanggapan bg-red-500 hover:bg-red-600 text-white p-2 rounded transition shadow-sm" title="Hapus Data">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     </button>
                                 </div>
                             </td>
@@ -108,11 +108,127 @@
             </div>
 
         </div>
+
+        <div id="modalEditTanggapan" class="fixed inset-0 z-[100] flex items-center justify-center hidden bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden transform scale-95 transition-transform duration-300 relative">
+                
+                <div class="bg-yellow-500 px-6 py-4 flex justify-between items-center text-white">
+                    <h3 class="font-bold text-lg tracking-wide">Edit Tanggapan</h3>
+                    <button id="closeModalEdit" type="button" class="text-white hover:text-yellow-100 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                
+                <form id="formEditTanggapan" class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Ubah Status Akhir</label>
+                            <select required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm bg-white text-gray-700 cursor-pointer">
+                                <option value="proses">PROSES (Sedang Ditangani)</option>
+                                <option value="selesai" selected>SELESAI (Berhasil Diatasi)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Revisi Isi Tanggapan</label>
+                            <textarea rows="4" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700 resize-y">Teknisi sudah menuju lokasi dan melakukan instalasi ulang OS Windows pada PC nomor 12. Saat ini sudah bisa digunakan kembali untuk praktikum.</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-end space-x-3">
+                        <button type="button" id="batalModalEdit" class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-md transition text-sm">Batal</button>
+                        <button type="submit" class="px-5 py-2.5 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-md transition text-sm shadow-md">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 
     <footer class="relative z-10 w-full bg-gray-800 text-gray-300 py-6 px-10 flex justify-between items-center text-sm mt-auto">
         <p>Helpdesk Kampus Panel Admin v1.0</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // ================= LOGIKA MODAL EDIT =================
+        const modalEdit = document.getElementById('modalEditTanggapan');
+        const btnsEdit = document.querySelectorAll('.btn-edit-tanggapan');
+        const closeBtnEdit = document.getElementById('closeModalEdit');
+        const batalBtnEdit = document.getElementById('batalModalEdit');
+        const formEdit = document.getElementById('formEditTanggapan');
+
+        const closeModalFunc = () => {
+            modalEdit.classList.add('opacity-0');
+            modalEdit.querySelector('div').classList.remove('scale-100');
+            modalEdit.querySelector('div').classList.add('scale-95');
+            setTimeout(() => { modalEdit.classList.add('hidden'); }, 300);
+        };
+
+        // Buka modal saat tombol kuning diklik
+        btnsEdit.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modalEdit.classList.remove('hidden');
+                setTimeout(() => {
+                    modalEdit.classList.remove('opacity-0');
+                    modalEdit.querySelector('div').classList.remove('scale-95');
+                    modalEdit.querySelector('div').classList.add('scale-100');
+                }, 10);
+            });
+        });
+
+        closeBtnEdit.addEventListener('click', closeModalFunc);
+        batalBtnEdit.addEventListener('click', closeModalFunc);
+
+        // Mencegah form tertutup saat area dalam form diklik
+        modalEdit.addEventListener('click', (e) => {
+            if (e.target === modalEdit) {
+                closeModalFunc();
+            }
+        });
+
+        // Submit form edit
+        formEdit.addEventListener('submit', function(e) {
+            e.preventDefault();
+            closeModalFunc();
+            Swal.fire({
+                title: 'Berhasil Diperbarui!',
+                text: 'Data tanggapan telah berhasil diperbarui di sistem.',
+                icon: 'success',
+                confirmButtonColor: '#EAB308', // Warna kuning
+                confirmButtonText: 'Tutup'
+            });
+        });
+
+        // ================= LOGIKA TOMBOL HAPUS =================
+        const btnsHapus = document.querySelectorAll('.btn-hapus-tanggapan');
+
+        btnsHapus.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const barisTabel = this.closest('tr'); // Mengambil baris tabel
+
+                Swal.fire({
+                    title: 'Hapus Tanggapan?',
+                    text: "Data tanggapan ini akan dihapus dari riwayat secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#EF4444',
+                    cancelButtonColor: '#6B7280',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Animasi memudar sebelum baris dihapus
+                        barisTabel.style.transition = "opacity 0.5s ease";
+                        barisTabel.style.opacity = "0";
+                        setTimeout(() => {
+                            barisTabel.remove();
+                            Swal.fire('Terhapus!', 'Data tanggapan berhasil dihapus.', 'success');
+                        }, 500);
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
