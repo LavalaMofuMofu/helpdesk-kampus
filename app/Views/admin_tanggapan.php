@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <form action="/admin_dashboard" method="GET">
+            <form id="formTanggapan" action="/admin_dashboard" method="GET">
                 
                 <div class="mb-6">
                     <label class="block text-sm font-bold text-gray-700 mb-2">Ubah Status Laporan</label>
@@ -77,6 +77,30 @@
     <footer class="relative z-10 w-full bg-gray-800 text-gray-300 py-6 px-10 flex justify-between items-center text-sm mt-auto">
         <p>Helpdesk Kampus Panel Admin v1.0</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('formTanggapan').addEventListener('submit', function(e) {
+            // Menahan form agar tidak langsung berpindah halaman otomatis
+            e.preventDefault(); 
+
+            // Memunculkan Pop-up Sukses SweetAlert
+            Swal.fire({
+                title: 'Tanggapan Terkirim!',
+                text: 'Tanggapan berhasil disimpan dan status laporan telah diperbarui.',
+                icon: 'success',
+                confirmButtonColor: '#2563EB', // Warna biru senada dengan Tailwind bg-blue-600
+                confirmButtonText: 'Kembali ke Dashboard',
+                allowOutsideClick: false // Mencegah pop-up tertutup tidak sengaja jika klik di luar area
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Setelah klik tombol, alihkan admin kembali ke halaman dashboard utama
+                    window.location.href = '/admin_dashboard';
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
