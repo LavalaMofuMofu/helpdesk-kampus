@@ -42,7 +42,7 @@
         <form id="loginForm" action="/login" method="POST">
             <?= csrf_field() ?>
             <div class="mb-5">
-                <input id="username" name="nomor_induk" type="text" required value="<?= old('nomor_induk') ?>" placeholder="Username / NIM" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                <input id="username" name="nomor_induk" type="text" required value="<?= old('nomor_induk') ?>" placeholder="NIM" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
             </div>
             <div class="mb-6">
                 <input name="password" type="password" required placeholder="Password" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
