@@ -24,7 +24,7 @@
             <a href="/data_pengguna" class="font-bold border-b-2 border-white pb-1 transition-colors">Data Pengguna</a>
             <!-- Link Profil Admin -->
             <a href="/profil/admin" class="hover:text-blue-200 transition-colors border-l border-blue-400 pl-6">Profil Admin</a>
-            <a href="/" class="hover:text-blue-200 transition-colors">Log Out</a>
+            <a href="/logout" class="hover:text-blue-200 transition-colors">Log Out</a>
         </div>
     </nav>
 
@@ -58,47 +58,47 @@
                         </tr>
                     </thead>
                     <tbody class="text-sm text-gray-700 divide-y divide-gray-200">
-                        
+                        <?php foreach ($daftarPengguna as $i => $user): ?>
+                        <?php $isSayaSendiri = (int) $user['id'] === (int) session()->get('user_id'); ?>
                         <tr class="hover:bg-blue-50/50 transition">
-                            <td class="p-4 text-center text-gray-500 font-medium">1</td>
-                            <td class="p-4 font-bold text-gray-800">Administrator Kampus</td>
-                            <td class="p-4 text-gray-600 font-mono">198012345678</td>
+                            <td class="p-4 text-center text-gray-500 font-medium"><?= $i + 1 ?></td>
+                            <td class="p-4 font-bold text-gray-800"><?= esc($user['nama']) ?></td>
+                            <td class="p-4 text-gray-600 font-mono"><?= esc($user['nomor_induk']) ?></td>
                             <td class="p-4 text-center">
-                                <span class="bg-purple-100 text-purple-700 border border-purple-200 text-xs font-bold px-3 py-1 rounded-full uppercase">Admin</span>
+                                <?php if ($user['role'] === 'admin'): ?>
+                                    <span class="bg-purple-100 text-purple-700 border border-purple-200 text-xs font-bold px-3 py-1 rounded-full uppercase">Admin</span>
+                                <?php else: ?>
+                                    <span class="bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold px-3 py-1 rounded-full uppercase">Mahasiswa</span>
+                                <?php endif; ?>
                             </td>
-                            <td class="p-4 text-center text-gray-500">01 Jan 2026</td>
+                            <td class="p-4 text-center text-gray-500"><?= esc(date('d M Y', strtotime($user['created_at']))) ?></td>
                             <td class="p-4 text-center">
                                 <div class="flex justify-center space-x-2">
-                                    <button class="btn-edit-pengguna bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm" title="Edit Data">
+                                    <button type="button"
+                                        class="btn-edit-pengguna bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm"
+                                        title="Edit Data"
+                                        data-id="<?= $user['id'] ?>"
+                                        data-nama="<?= esc($user['nama'], 'attr') ?>"
+                                        data-nomor-induk="<?= esc($user['nomor_induk'], 'attr') ?>"
+                                        data-role="<?= esc($user['role'], 'attr') ?>">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                     </button>
-                                    <button class="bg-gray-300 text-white p-2 rounded cursor-not-allowed" title="Admin Utama Tidak Bisa Dihapus" disabled>
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
+                                    <?php if ($isSayaSendiri): ?>
+                                        <button class="bg-gray-300 text-white p-2 rounded cursor-not-allowed" title="Tidak bisa menghapus akun yang sedang login" disabled>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        </button>
+                                    <?php else: ?>
+                                        <form action="/data_pengguna/hapus/<?= $user['id'] ?>" method="POST" class="form-hapus-pengguna">
+                                            <?= csrf_field() ?>
+                                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white p-2 rounded transition shadow-sm" title="Hapus Data">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>
-
-                        <tr class="hover:bg-blue-50/50 transition">
-                            <td class="p-4 text-center text-gray-500 font-medium">2</td>
-                            <td class="p-4 font-bold text-gray-800">Ahmad Budi Santoso</td>
-                            <td class="p-4 text-gray-600 font-mono">2410817210001</td>
-                            <td class="p-4 text-center">
-                                <span class="bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold px-3 py-1 rounded-full uppercase">Mahasiswa</span>
-                            </td>
-                            <td class="p-4 text-center text-gray-500">15 Jun 2026</td>
-                            <td class="p-4 text-center">
-                                <div class="flex justify-center space-x-2">
-                                    <button class="btn-edit-pengguna bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm" title="Edit Data">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                    </button>
-                                    <button class="btn-hapus-pengguna bg-red-500 hover:bg-red-600 text-white p-2 rounded transition shadow-sm" title="Hapus Data">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -115,19 +115,20 @@
                     </button>
                 </div>
                 
-                <form id="formTambahPengguna" class="p-6">
+                <form id="formTambahPengguna" class="p-6" method="POST" action="/data_pengguna/tambah">
+                    <?= csrf_field() ?>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Nama Lengkap</label>
-                            <input type="text" required placeholder="Masukkan nama lengkap" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
+                            <input type="text" name="nama" required placeholder="Masukkan nama lengkap" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">NIM / NIP</label>
-                            <input type="text" required placeholder="Masukkan nomor induk" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
+                            <input type="text" name="nomor_induk" required placeholder="Masukkan nomor induk" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Peran (Role)</label>
-                            <select required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700 cursor-pointer">
+                            <select name="role" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700 cursor-pointer">
                                 <option value="" disabled selected>Pilih hak akses...</option>
                                 <option value="mahasiswa">Mahasiswa</option>
                                 <option value="admin">Administrator</option>
@@ -135,7 +136,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Password Sementara</label>
-                            <input type="password" required placeholder="Buat password awal" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
+                            <input type="password" name="password" required minlength="6" placeholder="Buat password awal (min. 6 karakter)" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
                         </div>
                     </div>
                     
@@ -157,26 +158,27 @@
                     </button>
                 </div>
                 
-                <form id="formEditPengguna" class="p-6">
+                <form id="formEditPengguna" class="p-6" method="POST" action="/data_pengguna/update/0">
+                    <?= csrf_field() ?>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Nama Lengkap</label>
-                            <input type="text" value="Data Simulasi Nama" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700">
+                            <input type="text" name="nama" id="editNama" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700">
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">NIM / NIP</label>
-                            <input type="text" value="1234567890" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700">
+                            <input type="text" name="nomor_induk" id="editNomorInduk" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700">
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Peran (Role)</label>
-                            <select required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm bg-white text-gray-700 cursor-pointer">
-                                <option value="mahasiswa" selected>Mahasiswa</option>
+                            <select name="role" id="editRole" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm bg-white text-gray-700 cursor-pointer">
+                                <option value="mahasiswa">Mahasiswa</option>
                                 <option value="admin">Administrator</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Reset Password (Opsional)</label>
-                            <input type="password" placeholder="Kosongkan jika tidak ingin mengubah password" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700">
+                            <input type="password" name="password" minlength="6" placeholder="Kosongkan jika tidak ingin mengubah password" class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700">
                         </div>
                     </div>
                     
@@ -238,21 +240,8 @@
             }
         });
 
-        // Logika saat tombol "Simpan Data" ditekan
-        formTambah.addEventListener('submit', function(e) {
-            e.preventDefault(); // Tahan reload halaman
-            
-            closeModalFunc(); // Tutup pop-up form
-            
-            // Tampilkan notifikasi sukses
-            Swal.fire({
-                title: 'Berhasil Disimpan!',
-                text: 'Data pengguna baru telah berhasil ditambahkan ke dalam database.',
-                icon: 'success',
-                confirmButtonColor: '#2563EB',
-                confirmButtonText: 'Tutup'
-            });
-        });
+        // Logika saat tombol "Simpan Data" ditekan -- form benar-benar submit, SweetAlert dimunculkan
+        // lagi setelah redirect lewat flashdata (lihat bagian bawah file ini).
 
         // ================= LOGIKA MODAL EDIT =================
         const modalEdit = document.getElementById('modalEdit');
@@ -260,6 +249,9 @@
         const closeBtnEdit = document.getElementById('closeModalEdit');
         const batalBtnEdit = document.getElementById('batalModalEdit');
         const formEdit = document.getElementById('formEditPengguna');
+        const editNama = document.getElementById('editNama');
+        const editNomorInduk = document.getElementById('editNomorInduk');
+        const editRole = document.getElementById('editRole');
 
         const closeModalEditFunc = () => {
             modalEdit.classList.add('opacity-0');
@@ -268,9 +260,14 @@
             setTimeout(() => { modalEdit.classList.add('hidden'); }, 300);
         };
 
-        // Buka modal saat tombol kuning diklik
+        // Buka modal saat tombol kuning diklik, isi form dengan data baris yang dipilih
         btnsEdit.forEach(btn => {
             btn.addEventListener('click', () => {
+                formEdit.action = '/data_pengguna/update/' + btn.dataset.id;
+                editNama.value = btn.dataset.nama;
+                editNomorInduk.value = btn.dataset.nomorInduk;
+                editRole.value = btn.dataset.role;
+
                 modalEdit.classList.remove('hidden');
                 setTimeout(() => {
                     modalEdit.classList.remove('opacity-0');
@@ -283,25 +280,12 @@
         closeBtnEdit.addEventListener('click', closeModalEditFunc);
         batalBtnEdit.addEventListener('click', closeModalEditFunc);
 
-        // Submit form edit
-        formEdit.addEventListener('submit', function(e) {
-            e.preventDefault();
-            closeModalEditFunc();
-            Swal.fire({
-                title: 'Berhasil Diperbarui!',
-                text: 'Data pengguna telah berhasil diperbarui.',
-                icon: 'success',
-                confirmButtonColor: '#EAB308', // Warna kuning senada
-                confirmButtonText: 'Tutup'
-            });
-        });
-
         // ================= LOGIKA TOMBOL HAPUS =================
-        const btnsHapus = document.querySelectorAll('.btn-hapus-pengguna');
-
-        btnsHapus.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const barisTabel = this.closest('tr'); // Mengambil baris (row) tabel
+        // Tombol hapus ada di dalam <form>; SweetAlert cuma konfirmasi,
+        // begitu user setuju, form-nya betulan di-submit ke server.
+        document.querySelectorAll('.form-hapus-pengguna').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
 
                 Swal.fire({
                     title: 'Hapus Pengguna Ini?',
@@ -314,18 +298,23 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Animasi memudar sebelum baris dihapus
-                        barisTabel.style.transition = "opacity 0.5s ease";
-                        barisTabel.style.opacity = "0";
-                        setTimeout(() => {
-                            barisTabel.remove();
-                            Swal.fire('Terhapus!', 'Pengguna berhasil dihapus dari sistem.', 'success');
-                        }, 500);
+                        form.submit();
                     }
                 });
             });
         });
     </script>
+
+    <?php if (session()->getFlashdata('sukses')): ?>
+    <script>
+        Swal.fire({ title: 'Berhasil!', text: '<?= esc(session()->getFlashdata('sukses'), 'js') ?>', icon: 'success', confirmButtonColor: '#2563EB' });
+    </script>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('error')): ?>
+    <script>
+        Swal.fire({ title: 'Gagal', text: '<?= esc(session()->getFlashdata('error'), 'js') ?>', icon: 'error', confirmButtonColor: '#2563EB' });
+    </script>
+    <?php endif; ?>
 
 </body>
 </html>

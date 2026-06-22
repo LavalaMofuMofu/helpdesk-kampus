@@ -20,9 +20,9 @@
         </div>
         <div class="flex space-x-6 text-sm font-medium">
             <a href="/admin_dashboard" class="font-bold border-b-2 border-white pb-1">Data Pengaduan</a>
-            <a href="#" class="hover:text-blue-200 transition-colors">Data Tanggapan</a>
-            <a href="#" class="hover:text-blue-200 transition-colors">Data Pengguna</a>
-            <a href="/" class="hover:text-blue-200 transition-colors">Log Out</a>
+            <a href="/data_tanggapan" class="hover:text-blue-200 transition-colors">Data Tanggapan</a>
+            <a href="/data_pengguna" class="hover:text-blue-200 transition-colors">Data Pengguna</a>
+            <a href="/logout" class="hover:text-blue-200 transition-colors">Log Out</a>
         </div>
     </nav>
 
@@ -34,31 +34,34 @@
             
             <div class="mb-8 bg-blue-50 p-6 rounded-lg border border-blue-100 flex flex-col md:flex-row gap-6">
                 <div class="w-full md:w-1/3 flex-shrink-0">
-                    <img src="https://placehold.co/300x300/EFF6FF/1E3A8A?text=Bukti+Aduan" alt="Foto Bukti" class="w-full h-48 object-cover rounded-md border shadow-sm">
+                    <?php $fotoUrl = $pengaduan['foto'] ? base_url('uploads/pengaduan/' . $pengaduan['foto']) : 'https://placehold.co/300x300/EFF6FF/1E3A8A?text=Bukti+Aduan'; ?>
+                    <img src="<?= esc($fotoUrl, 'attr') ?>" alt="Foto Bukti" class="w-full h-48 object-cover rounded-md border shadow-sm">
                 </div>
                 <div class="flex-grow">
-                    <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Laboratorium Komputer</span>
-                    <p class="text-xs text-gray-400 mt-3">Dilaporkan pada: <span class="text-gray-600 font-medium">17 Juni 2026</span></p>
+                    <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"><?= esc($pengaduan['kategori']) ?></span>
+                    <p class="text-xs text-gray-400 mt-3">Dilaporkan oleh <span class="text-gray-600 font-medium"><?= esc($pengaduan['nama_pelapor']) ?></span> pada: <span class="text-gray-600 font-medium"><?= esc(date('d F Y', strtotime($pengaduan['tanggal_kejadian']))) ?></span></p>
                     <p class="text-gray-700 text-sm mt-3 leading-relaxed">
                         <span class="font-bold text-gray-800">Detail Keluhan:</span><br>
-                        PC Komputer di Lab C nomor 12 mengalami bluescreen berulang kali saat praktikum basis data berlangsung. Mohon diperbaiki karena menghambat pengerjaan tugas kuliah.
+                        <?= esc($pengaduan['deskripsi']) ?>
                     </p>
                 </div>
             </div>
 
-            <form id="formTanggapan" action="/admin_dashboard" method="GET">
-                
+            <form id="formTanggapan" action="/admin_tanggapan" method="POST">
+                <?= csrf_field() ?>
+                <input type="hidden" name="pengaduan_id" value="<?= $pengaduan['id'] ?>">
+
                 <div class="mb-6">
                     <label class="block text-sm font-bold text-gray-700 mb-2">Ubah Status Laporan</label>
-                    <select class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer">
-                        <option value="proses" selected>PROSES (Sedang Ditangani)</option>
-                        <option value="selesai">SELESAI (Masalah Berhasil Diatasi)</option>
+                    <select name="status" class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer">
+                        <option value="proses" <?= $pengaduan['status'] !== 'selesai' ? 'selected' : '' ?>>PROSES (Sedang Ditangani)</option>
+                        <option value="selesai" <?= $pengaduan['status'] === 'selesai' ? 'selected' : '' ?>>SELESAI (Masalah Berhasil Diatasi)</option>
                     </select>
                 </div>
 
                 <div class="mb-8">
                     <label class="block text-sm font-bold text-gray-700 mb-2">Isi Tanggapan / Solusi</label>
-                    <textarea rows="5" required placeholder="Tuliskan tindakan perbaikan atau pesan balasan ke mahasiswa di sini..." class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow resize-y"></textarea>
+                    <textarea name="isi_tanggapan" rows="5" required placeholder="Tuliskan tindakan perbaikan atau pesan balasan ke mahasiswa di sini..." class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow resize-y"><?= old('isi_tanggapan') ?></textarea>
                 </div>
 
                 <div class="flex gap-4">
@@ -80,27 +83,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <?php if (session()->getFlashdata('error')): ?>
     <script>
-        document.getElementById('formTanggapan').addEventListener('submit', function(e) {
-            // Menahan form agar tidak langsung berpindah halaman otomatis
-            e.preventDefault(); 
-
-            // Memunculkan Pop-up Sukses SweetAlert
-            Swal.fire({
-                title: 'Tanggapan Terkirim!',
-                text: 'Tanggapan berhasil disimpan dan status laporan telah diperbarui.',
-                icon: 'success',
-                confirmButtonColor: '#2563EB', // Warna biru senada dengan Tailwind bg-blue-600
-                confirmButtonText: 'Kembali ke Dashboard',
-                allowOutsideClick: false // Mencegah pop-up tertutup tidak sengaja jika klik di luar area
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Setelah klik tombol, alihkan admin kembali ke halaman dashboard utama
-                    window.location.href = '/admin_dashboard';
-                }
-            });
+        Swal.fire({
+            title: 'Gagal Menyimpan',
+            text: '<?= esc(session()->getFlashdata('error'), 'js') ?>',
+            icon: 'error',
+            confirmButtonColor: '#2563EB'
         });
     </script>
+    <?php endif; ?>
 
 </body>
 </html>

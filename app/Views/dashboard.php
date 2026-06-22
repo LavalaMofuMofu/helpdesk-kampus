@@ -26,7 +26,7 @@
             <a href="/dashboard" class="font-bold border-b-2 border-white pb-1 transition-colors">Dashboard</a>
             <a href="/riwayat_laporan" class="hover:text-blue-200 transition-colors">Riwayat Laporan</a>
             <a href="/profil/mahasiswa" class="hover:text-blue-200 transition-colors">Profil</a>
-            <a href="/" class="hover:text-blue-200 transition-colors">Log Out</a>
+            <a href="/logout" class="hover:text-blue-200 transition-colors">Log Out</a>
         </div>
     </nav>
 

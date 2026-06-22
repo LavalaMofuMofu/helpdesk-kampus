@@ -23,7 +23,7 @@
             <a href="/riwayat_laporan" class="font-bold border-b-2 border-white pb-1 transition-colors">Riwayat Laporan</a>
             <!-- Link Profil Mahasiswa -->
             <a href="/profil/mahasiswa" class="hover:text-blue-200 transition-colors">Profil</a>
-            <a href="/" class="hover:text-blue-200 transition-colors">Log Out</a>
+            <a href="/logout" class="hover:text-blue-200 transition-colors">Log Out</a>
         </div>
     </nav>
 
@@ -32,48 +32,38 @@
         <h2 class="text-white text-3xl font-bold mb-8 tracking-wide drop-shadow-md">RIWAYAT LAPORAN SAYA</h2>
 
         <div class="w-full max-w-4xl space-y-6">
-            
-            <div class="bg-white rounded-lg shadow-lg flex overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <div class="w-32 md:w-48 flex-shrink-0">
-                    <img src="https://placehold.co/300x300/EFF6FF/1E3A8A?text=Foto+Bukti" alt="Bukti Laporan" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-grow p-5 md:p-6 flex flex-col justify-center">
-                    <p class="text-sm text-gray-500 mb-1">Tanggal: <span class="font-medium text-gray-700">17 Juni 2026</span></p>
-                    <p class="text-sm text-gray-500 mb-2">Kategori: <span class="font-bold text-gray-800">Fasilitas Gedung & Kelas</span></p>
-                    <p class="text-gray-700 text-sm md:text-base line-clamp-2">Isi Laporan: Proyektor di ruang kelas lantai 2 mati total, padahal besok ada presentasi tugas akhir.</p>
-                </div>
-                <div class="bg-yellow-400 w-16 md:w-20 flex items-center justify-center flex-shrink-0">
-                    <span class="transform -rotate-90 text-white font-extrabold tracking-widest text-sm md:text-base">PROSES</span>
-                </div>
-            </div>
 
-            <div class="bg-white rounded-lg shadow-lg flex overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <div class="w-32 md:w-48 flex-shrink-0">
-                    <img src="https://placehold.co/300x300/EFF6FF/1E3A8A?text=Foto+Bukti" alt="Bukti Laporan" class="w-full h-full object-cover">
+            <?php if (empty($daftarLaporan)): ?>
+                <div class="bg-white/90 rounded-lg shadow-lg p-10 text-center text-gray-500">
+                    Anda belum pernah membuat laporan pengaduan. <a href="/dashboard" class="text-blue-600 font-semibold hover:underline">Buat laporan baru</a>.
                 </div>
-                <div class="flex-grow p-5 md:p-6 flex flex-col justify-center">
-                    <p class="text-sm text-gray-500 mb-1">Tanggal: <span class="font-medium text-gray-700">10 Juni 2026</span></p>
-                    <p class="text-sm text-gray-500 mb-2">Kategori: <span class="font-bold text-gray-800">Jaringan & Akses Wi-Fi</span></p>
-                    <p class="text-gray-700 text-sm md:text-base line-clamp-2">Isi Laporan: Sinyal Wi-Fi di area kantin sangat lemah dan sering terputus sejak dua hari lalu.</p>
-                </div>
-                <div class="bg-green-500 w-16 md:w-20 flex items-center justify-center flex-shrink-0">
-                    <span class="transform -rotate-90 text-white font-extrabold tracking-widest text-sm md:text-base">SELESAI</span>
-                </div>
-            </div>
+            <?php endif; ?>
 
-            <div class="bg-white rounded-lg shadow-lg flex overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <div class="w-32 md:w-48 flex-shrink-0">
-                    <img src="https://placehold.co/300x300/EFF6FF/1E3A8A?text=Foto+Bukti" alt="Bukti Laporan" class="w-full h-full object-cover">
+            <?php foreach ($daftarLaporan as $laporan): ?>
+                <?php
+                    $warnaStatus = match ($laporan['status']) {
+                        'selesai' => 'bg-green-500',
+                        'proses'  => 'bg-yellow-400',
+                        default   => 'bg-gray-400',
+                    };
+                    $fotoUrl = $laporan['foto']
+                        ? base_url('uploads/pengaduan/' . $laporan['foto'])
+                        : 'https://placehold.co/300x300/EFF6FF/1E3A8A?text=Tanpa+Foto';
+                ?>
+                <div class="bg-white rounded-lg shadow-lg flex overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                    <div class="w-32 md:w-48 flex-shrink-0">
+                        <img src="<?= esc($fotoUrl, 'attr') ?>" alt="Bukti Laporan" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-grow p-5 md:p-6 flex flex-col justify-center">
+                        <p class="text-sm text-gray-500 mb-1">Tanggal: <span class="font-medium text-gray-700"><?= esc(date('d F Y', strtotime($laporan['tanggal_kejadian']))) ?></span></p>
+                        <p class="text-sm text-gray-500 mb-2">Kategori: <span class="font-bold text-gray-800"><?= esc($laporan['kategori']) ?></span></p>
+                        <p class="text-gray-700 text-sm md:text-base line-clamp-2">Isi Laporan: <?= esc($laporan['deskripsi']) ?></p>
+                    </div>
+                    <div class="<?= $warnaStatus ?> w-16 md:w-20 flex items-center justify-center flex-shrink-0">
+                        <span class="transform -rotate-90 text-white font-extrabold tracking-widest text-sm md:text-base"><?= esc(strtoupper($laporan['status'])) ?></span>
+                    </div>
                 </div>
-                <div class="flex-grow p-5 md:p-6 flex flex-col justify-center">
-                    <p class="text-sm text-gray-500 mb-1">Tanggal: <span class="font-medium text-gray-700">17 Juni 2026</span></p>
-                    <p class="text-sm text-gray-500 mb-2">Kategori: <span class="font-bold text-gray-800">Layanan Akademik & KRS</span></p>
-                    <p class="text-gray-700 text-sm md:text-base line-clamp-2">Isi Laporan: Nilai mata kuliah Jaringan Komputer belum keluar di portal akademik.</p>
-                </div>
-                <div class="bg-gray-400 w-16 md:w-20 flex items-center justify-center flex-shrink-0">
-                    <span class="transform -rotate-90 text-white font-extrabold tracking-widest text-sm md:text-base">MENUNGGU</span>
-                </div>
-            </div>
+            <?php endforeach; ?>
 
         </div>
     </main>
@@ -86,6 +76,18 @@
             </svg>
         </button>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php if (session()->getFlashdata('sukses')): ?>
+    <script>
+        Swal.fire({
+            title: 'Berhasil!',
+            text: '<?= esc(session()->getFlashdata('sukses'), 'js') ?>',
+            icon: 'success',
+            confirmButtonColor: '#2563EB'
+        });
+    </script>
+    <?php endif; ?>
 
 </body>
 </html>

@@ -31,7 +31,7 @@
                     <a href="/profil/admin" class="font-bold border-b-2 border-white pb-1 transition-colors">Profil Admin</a>
                 </div>
                 
-                <a href="/" class="hover:text-blue-200 transition-colors">Log Out</a>
+                <a href="/logout" class="hover:text-blue-200 transition-colors">Log Out</a>
             </div>
         <?php else: ?>
             <div class="flex space-x-6 text-sm font-medium items-center">
@@ -40,7 +40,7 @@
                 
                 <a href="/profil/mahasiswa" class="font-bold border-b-2 border-white pb-1 transition-colors">Profil</a>
                 
-                <a href="/" class="hover:text-blue-200 transition-colors">Log Out</a>
+                <a href="/logout" class="hover:text-blue-200 transition-colors">Log Out</a>
             </div>
         <?php endif; ?>
     </nav>
@@ -76,15 +76,15 @@
                 
                 <div class="grid grid-cols-3 gap-3 md:gap-4 text-center">
                     <div class="bg-blue-50 p-3 md:p-4 rounded-2xl border border-blue-100">
-                        <p class="text-2xl font-bold text-blue-600">12</p>
+                        <p class="text-2xl font-bold text-blue-600"><?= $statistik['total'] ?></p>
                         <p class="text-[9px] md:text-[10px] text-gray-500 uppercase tracking-wide font-semibold mt-1">Total</p>
                     </div>
                     <div class="bg-yellow-50 p-3 md:p-4 rounded-2xl border border-yellow-100">
-                        <p class="text-2xl font-bold text-yellow-600">3</p>
+                        <p class="text-2xl font-bold text-yellow-600"><?= $statistik['proses'] ?></p>
                         <p class="text-[9px] md:text-[10px] text-gray-500 uppercase tracking-wide font-semibold mt-1">Proses</p>
                     </div>
                     <div class="bg-green-50 p-3 md:p-4 rounded-2xl border border-green-100">
-                        <p class="text-2xl font-bold text-green-600">9</p>
+                        <p class="text-2xl font-bold text-green-600"><?= $statistik['selesai'] ?></p>
                         <p class="text-[9px] md:text-[10px] text-gray-500 uppercase tracking-wide font-semibold mt-1">Selesai</p>
                     </div>
                 </div>

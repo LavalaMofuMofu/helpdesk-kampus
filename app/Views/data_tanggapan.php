@@ -24,7 +24,7 @@
             <a href="/data_pengguna" class="hover:text-blue-200 transition-colors">Data Pengguna</a>
             <!-- Link Profil Admin -->
             <a href="/profil/admin" class="hover:text-blue-200 transition-colors border-l border-blue-400 pl-6">Profil Admin</a>
-            <a href="/" class="hover:text-blue-200 transition-colors">Log Out</a>
+            <a href="/logout" class="hover:text-blue-200 transition-colors">Log Out</a>
         </div>
     </nav>
 
@@ -53,56 +53,49 @@
                             <th class="p-4 font-bold w-32 text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm text-gray-700 divide-y divide-gray-200">
-                        <tr class="hover:bg-blue-50/50 transition">
-                            <td class="p-4 text-center text-gray-500 font-medium">1</td>
-                            <td class="p-4">17 Jun 2026<br><span class="text-xs text-gray-400">14:30 WITA</span></td>
+                    <tbody class="text-sm text-gray-700 divide-y divide-gray-200" id="tabelBodyTanggapan">
+                        <?php if (empty($daftarTanggapan)): ?>
+                        <tr><td colspan="6" class="p-8 text-center text-gray-400">Belum ada tanggapan yang dikirim.</td></tr>
+                        <?php endif; ?>
+                        <?php foreach ($daftarTanggapan as $i => $row): ?>
+                        <?php
+                            $warnaStatus = $row['status'] === 'selesai'
+                                ? 'bg-green-100 text-green-700 border-green-200'
+                                : 'bg-yellow-100 text-yellow-700 border-yellow-200';
+                        ?>
+                        <tr class="hover:bg-blue-50/50 transition baris-tanggapan" data-kategori="<?= esc(strtolower($row['kategori']), 'attr') ?>">
+                            <td class="p-4 text-center text-gray-500 font-medium"><?= $i + 1 ?></td>
+                            <td class="p-4"><?= esc(date('d M Y', strtotime($row['tanggal_laporan']))) ?><br><span class="text-xs text-gray-400"><?= esc(date('H:i', strtotime($row['created_at']))) ?> WITA</span></td>
                             <td class="p-4">
-                                <span class="block font-semibold text-blue-700">Lab Komputer</span>
-                                <span class="text-xs text-gray-500 line-clamp-1">PC Komputer nomor 12...</span>
+                                <span class="block font-semibold text-blue-700"><?= esc($row['kategori']) ?></span>
+                                <span class="text-xs text-gray-500 line-clamp-1"><?= esc($row['deskripsi']) ?></span>
                             </td>
                             <td class="p-4 text-gray-600">
-                                <p class="line-clamp-2">Teknisi sudah menuju lokasi dan melakukan instalasi ulang OS Windows pada PC nomor 12. Saat ini sudah bisa digunakan kembali untuk praktikum.</p>
+                                <p class="line-clamp-2"><?= esc($row['isi_tanggapan']) ?></p>
                             </td>
                             <td class="p-4 text-center">
-                                <span class="bg-green-100 text-green-700 border border-green-200 text-xs font-bold px-3 py-1 rounded-full">SELESAI</span>
+                                <span class="<?= $warnaStatus ?> border text-xs font-bold px-3 py-1 rounded-full"><?= esc(strtoupper($row['status'])) ?></span>
                             </td>
                             <td class="p-4 text-center">
                                 <div class="flex justify-center space-x-2">
-                                    <button class="btn-edit-tanggapan bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm" title="Edit Data">
+                                    <button type="button"
+                                        class="btn-edit-tanggapan bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm"
+                                        title="Edit Data"
+                                        data-id="<?= $row['id'] ?>"
+                                        data-status="<?= esc($row['status'], 'attr') ?>"
+                                        data-isi="<?= esc($row['isi_tanggapan'], 'attr') ?>">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                     </button>
-                                    <button class="btn-hapus-tanggapan bg-red-500 hover:bg-red-600 text-white p-2 rounded transition shadow-sm" title="Hapus Data">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
+                                    <form action="/data_tanggapan/hapus/<?= $row['id'] ?>" method="POST" class="form-hapus-tanggapan">
+                                        <?= csrf_field() ?>
+                                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white p-2 rounded transition shadow-sm" title="Hapus Data">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
-                        
-                        <tr class="hover:bg-blue-50/50 transition">
-                            <td class="p-4 text-center text-gray-500 font-medium">2</td>
-                            <td class="p-4">16 Jun 2026<br><span class="text-xs text-gray-400">09:15 WITA</span></td>
-                            <td class="p-4">
-                                <span class="block font-semibold text-blue-700">Jaringan & Wi-Fi</span>
-                                <span class="text-xs text-gray-500 line-clamp-1">Akses Wi-Fi Gedung...</span>
-                            </td>
-                            <td class="p-4 text-gray-600">
-                                <p class="line-clamp-2">Laporan diterima. Sedang dikoordinasikan dengan pihak provider ISP karena terjadi indikasi putus kabel optik pada jalur utama.</p>
-                            </td>
-                            <td class="p-4 text-center">
-                                <span class="bg-yellow-100 text-yellow-700 border border-yellow-200 text-xs font-bold px-3 py-1 rounded-full">PROSES</span>
-                            </td>
-                            <td class="p-4 text-center">
-                                <div class="flex justify-center space-x-2">
-                                    <button class="btn-edit-tanggapan bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition shadow-sm" title="Edit Data">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                    </button>
-                                    <button class="btn-hapus-tanggapan bg-red-500 hover:bg-red-600 text-white p-2 rounded transition shadow-sm" title="Hapus Data">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -119,18 +112,19 @@
                     </button>
                 </div>
                 
-                <form id="formEditTanggapan" class="p-6">
+                <form id="formEditTanggapan" class="p-6" method="POST" action="/data_tanggapan/update/0">
+                    <?= csrf_field() ?>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Ubah Status Akhir</label>
-                            <select required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm bg-white text-gray-700 cursor-pointer">
+                            <select name="status" id="editStatus" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm bg-white text-gray-700 cursor-pointer">
                                 <option value="proses">PROSES (Sedang Ditangani)</option>
-                                <option value="selesai" selected>SELESAI (Berhasil Diatasi)</option>
+                                <option value="selesai">SELESAI (Berhasil Diatasi)</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Revisi Isi Tanggapan</label>
-                            <textarea rows="4" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700 resize-y">Teknisi sudah menuju lokasi dan melakukan instalasi ulang OS Windows pada PC nomor 12. Saat ini sudah bisa digunakan kembali untuk praktikum.</textarea>
+                            <textarea name="isi_tanggapan" id="editIsiTanggapan" rows="4" required class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm text-gray-700 resize-y"></textarea>
                         </div>
                     </div>
                     
@@ -156,6 +150,8 @@
         const closeBtnEdit = document.getElementById('closeModalEdit');
         const batalBtnEdit = document.getElementById('batalModalEdit');
         const formEdit = document.getElementById('formEditTanggapan');
+        const editStatus = document.getElementById('editStatus');
+        const editIsiTanggapan = document.getElementById('editIsiTanggapan');
 
         const closeModalFunc = () => {
             modalEdit.classList.add('opacity-0');
@@ -164,9 +160,13 @@
             setTimeout(() => { modalEdit.classList.add('hidden'); }, 300);
         };
 
-        // Buka modal saat tombol kuning diklik
+        // Buka modal saat tombol kuning diklik, isi form dengan data baris yang dipilih
         btnsEdit.forEach(btn => {
             btn.addEventListener('click', () => {
+                formEdit.action = '/data_tanggapan/update/' + btn.dataset.id;
+                editStatus.value = btn.dataset.status;
+                editIsiTanggapan.value = btn.dataset.isi;
+
                 modalEdit.classList.remove('hidden');
                 setTimeout(() => {
                     modalEdit.classList.remove('opacity-0');
@@ -186,25 +186,12 @@
             }
         });
 
-        // Submit form edit
-        formEdit.addEventListener('submit', function(e) {
-            e.preventDefault();
-            closeModalFunc();
-            Swal.fire({
-                title: 'Berhasil Diperbarui!',
-                text: 'Data tanggapan telah berhasil diperbarui di sistem.',
-                icon: 'success',
-                confirmButtonColor: '#EAB308', // Warna kuning
-                confirmButtonText: 'Tutup'
-            });
-        });
-
         // ================= LOGIKA TOMBOL HAPUS =================
-        const btnsHapus = document.querySelectorAll('.btn-hapus-tanggapan');
-
-        btnsHapus.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const barisTabel = this.closest('tr'); // Mengambil baris tabel
+        // Tombol hapus ada di dalam <form>; SweetAlert cuma konfirmasi,
+        // begitu user setuju, form-nya betulan di-submit ke server.
+        document.querySelectorAll('.form-hapus-tanggapan').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
 
                 Swal.fire({
                     title: 'Hapus Tanggapan?',
@@ -217,18 +204,23 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Animasi memudar sebelum baris dihapus
-                        barisTabel.style.transition = "opacity 0.5s ease";
-                        barisTabel.style.opacity = "0";
-                        setTimeout(() => {
-                            barisTabel.remove();
-                            Swal.fire('Terhapus!', 'Data tanggapan berhasil dihapus.', 'success');
-                        }, 500);
+                        form.submit();
                     }
                 });
             });
         });
     </script>
+
+    <?php if (session()->getFlashdata('sukses')): ?>
+    <script>
+        Swal.fire({ title: 'Berhasil!', text: '<?= esc(session()->getFlashdata('sukses'), 'js') ?>', icon: 'success', confirmButtonColor: '#EAB308' });
+    </script>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('error')): ?>
+    <script>
+        Swal.fire({ title: 'Gagal', text: '<?= esc(session()->getFlashdata('error'), 'js') ?>', icon: 'error', confirmButtonColor: '#2563EB' });
+    </script>
+    <?php endif; ?>
 
 </body>
 </html>

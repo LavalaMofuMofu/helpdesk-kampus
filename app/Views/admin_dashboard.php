@@ -24,7 +24,7 @@
             <a href="/data_pengguna" class="hover:text-blue-200 transition-colors">Data Pengguna</a>
             <!-- Link Profil Admin -->
             <a href="/profil/admin" class="hover:text-blue-200 transition-colors border-l border-blue-400 pl-6">Profil Admin</a>
-            <a href="/" class="hover:text-blue-200 transition-colors">Log Out</a>
+            <a href="/logout" class="hover:text-blue-200 transition-colors">Log Out</a>
         </div>
     </nav>
 
@@ -43,66 +43,75 @@
         </div>
 
         <div id="kontenProses" class="w-full max-w-5xl space-y-6 block transition-opacity duration-300">
-            <div class="bg-white rounded-lg shadow-lg flex overflow-hidden hover:shadow-xl transition-all duration-300">
-                <div class="w-32 md:w-48 flex-shrink-0">
-                    <img src="https://placehold.co/300x300/EFF6FF/1E3A8A?text=Foto+Aduan" alt="Bukti" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-grow p-5 flex flex-col justify-between">
-                    <div>
-                        <p class="text-xs text-gray-400 mb-1">Tanggal: <span class="font-medium text-gray-600">17 Juni 2026</span></p>
-                        <p class="text-sm font-bold text-blue-800 uppercase tracking-wide mb-2">Kategori: Laboratorium Komputer</p>
-                        <p class="text-gray-700 text-sm md:text-base line-clamp-3"><span class="font-semibold">Isi Laporan:</span> PC Komputer di Lab C nomor 12 mengalami bluescreen berulang kali saat praktikum basis data berlangsung.</p>
-                    </div>
-                    <div class="flex flex-wrap gap-2 mt-4">
-                        <a href="/admin_tanggapan?id=1" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Tanggapi</a>
-                        <button class="btn-hapus bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus</button>
-                    </div>
-                </div>
-                <div class="bg-yellow-400 w-16 md:w-20 flex items-center justify-center flex-shrink-0">
-                    <span class="transform -rotate-90 text-white font-extrabold tracking-widest text-sm md:text-base">PROSES</span>
-                </div>
-            </div>
+            <?php if (empty($daftarProses)): ?>
+                <div class="bg-white/90 rounded-lg shadow-lg p-10 text-center text-gray-500">Tidak ada laporan yang sedang berjalan saat ini.</div>
+            <?php endif; ?>
 
-            <div class="bg-white rounded-lg shadow-lg flex overflow-hidden hover:shadow-xl transition-all duration-300">
-                <div class="w-32 md:w-48 flex-shrink-0">
-                    <img src="https://placehold.co/300x300/EFF6FF/1E3A8A?text=Foto+Aduan" alt="Bukti" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-grow p-5 flex flex-col justify-between">
-                    <div>
-                        <p class="text-xs text-gray-400 mb-1">Tanggal: <span class="font-medium text-gray-600">16 Juni 2026</span></p>
-                        <p class="text-sm font-bold text-blue-800 uppercase tracking-wide mb-2">Kategori: Jaringan & Akses Wi-Fi</p>
-                        <p class="text-gray-700 text-sm md:text-base line-clamp-3"><span class="font-semibold">Isi Laporan:</span> Akses Wi-Fi Gedung Utama tidak bisa terhubung sejak pagi, muncul keterangan IP Configuration Failure.</p>
+            <?php foreach ($daftarProses as $row): ?>
+                <?php
+                    $warnaStatus = $row['status'] === 'proses' ? 'bg-yellow-400' : 'bg-gray-400';
+                    $fotoUrl = $row['foto']
+                        ? base_url('uploads/pengaduan/' . $row['foto'])
+                        : 'https://placehold.co/300x300/EFF6FF/1E3A8A?text=Foto+Aduan';
+                ?>
+                <div class="bg-white rounded-lg shadow-lg flex overflow-hidden hover:shadow-xl transition-all duration-300">
+                    <div class="w-32 md:w-48 flex-shrink-0">
+                        <img src="<?= esc($fotoUrl, 'attr') ?>" alt="Bukti" class="w-full h-full object-cover">
                     </div>
-                    <div class="flex flex-wrap gap-2 mt-4">
-                        <a href="/admin_tanggapan?id=2" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Tanggapi</a>
-                        <button class="btn-hapus bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus</button>
+                    <div class="flex-grow p-5 flex flex-col justify-between">
+                        <div>
+                            <p class="text-xs text-gray-400 mb-1">Tanggal: <span class="font-medium text-gray-600"><?= esc(date('d F Y', strtotime($row['tanggal_kejadian']))) ?></span> &middot; Pelapor: <span class="font-medium text-gray-600"><?= esc($row['nama_pelapor']) ?></span></p>
+                            <p class="text-sm font-bold text-blue-800 uppercase tracking-wide mb-2">Kategori: <?= esc($row['kategori']) ?></p>
+                            <p class="text-gray-700 text-sm md:text-base line-clamp-3"><span class="font-semibold">Isi Laporan:</span> <?= esc($row['deskripsi']) ?></p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <a href="/admin_tanggapan?id=<?= $row['id'] ?>" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Tanggapi</a>
+                            <form action="/admin_dashboard/hapus/<?= $row['id'] ?>" method="POST" class="form-hapus-pengaduan">
+                                <?= csrf_field() ?>
+                                <button type="submit" class="btn-hapus bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="<?= $warnaStatus ?> w-16 md:w-20 flex items-center justify-center flex-shrink-0">
+                        <span class="transform -rotate-90 text-white font-extrabold tracking-widest text-sm md:text-base"><?= esc(strtoupper($row['status'])) ?></span>
                     </div>
                 </div>
-                <div class="bg-yellow-400 w-16 md:w-20 flex items-center justify-center flex-shrink-0">
-                    <span class="transform -rotate-90 text-white font-extrabold tracking-widest text-sm md:text-base">PROSES</span>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
         <div id="kontenSelesai" class="w-full max-w-5xl space-y-6 hidden transition-opacity duration-300">
-            <div class="bg-white/90 rounded-lg shadow-lg flex overflow-hidden opacity-90">
-                <div class="w-32 md:w-48 flex-shrink-0 bg-gray-200">
-                    <img src="https://placehold.co/300x300/EFF6FF/1E3A8A?text=Selesai" alt="Bukti" class="w-full h-full object-cover grayscale">
-                </div>
-                <div class="flex-grow p-5 flex flex-col justify-between">
-                    <div>
-                        <p class="text-xs text-gray-400 mb-1">Tanggal Selesai: <span class="font-medium text-gray-600">10 Juni 2026</span></p>
-                        <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Kategori: Kebersihan Lingkungan</p>
-                        <p class="text-gray-500 text-sm line-clamp-2"><span class="font-semibold">Isi Laporan:</span> Sampah di area taman parkir belakang menumpuk dan menimbulkan bau tidak sedap.</p>
+            <?php if (empty($daftarSelesai)): ?>
+                <div class="bg-white/90 rounded-lg shadow-lg p-10 text-center text-gray-500">Belum ada riwayat laporan yang selesai.</div>
+            <?php endif; ?>
+
+            <?php foreach ($daftarSelesai as $row): ?>
+                <?php
+                    $fotoUrl = $row['foto']
+                        ? base_url('uploads/pengaduan/' . $row['foto'])
+                        : 'https://placehold.co/300x300/EFF6FF/1E3A8A?text=Selesai';
+                ?>
+                <div class="bg-white/90 rounded-lg shadow-lg flex overflow-hidden opacity-90">
+                    <div class="w-32 md:w-48 flex-shrink-0 bg-gray-200">
+                        <img src="<?= esc($fotoUrl, 'attr') ?>" alt="Bukti" class="w-full h-full object-cover grayscale">
                     </div>
-                    <div class="flex flex-wrap gap-2 mt-4">
-                        <button class="btn-hapus bg-red-400 hover:bg-red-500 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus Riwayat</button>
+                    <div class="flex-grow p-5 flex flex-col justify-between">
+                        <div>
+                            <p class="text-xs text-gray-400 mb-1">Diperbarui: <span class="font-medium text-gray-600"><?= esc(date('d F Y', strtotime($row['updated_at']))) ?></span> &middot; Pelapor: <span class="font-medium text-gray-600"><?= esc($row['nama_pelapor']) ?></span></p>
+                            <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Kategori: <?= esc($row['kategori']) ?></p>
+                            <p class="text-gray-500 text-sm line-clamp-2"><span class="font-semibold">Isi Laporan:</span> <?= esc($row['deskripsi']) ?></p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <form action="/admin_dashboard/hapus/<?= $row['id'] ?>" method="POST" class="form-hapus-pengaduan">
+                                <?= csrf_field() ?>
+                                <button type="submit" class="btn-hapus bg-red-400 hover:bg-red-500 text-white text-xs font-bold px-4 py-2 rounded transition shadow">Hapus Riwayat</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="bg-green-500 w-16 md:w-20 flex items-center justify-center flex-shrink-0">
+                        <span class="transform -rotate-90 text-white font-extrabold tracking-widest text-sm md:text-base">SELESAI</span>
                     </div>
                 </div>
-                <div class="bg-green-500 w-16 md:w-20 flex items-center justify-center flex-shrink-0">
-                    <span class="transform -rotate-90 text-white font-extrabold tracking-widest text-sm md:text-base">SELESAI</span>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
     </main>
@@ -115,48 +124,41 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // Menangkap semua tombol yang memiliki class 'btn-hapus'
-        const tombolHapus = document.querySelectorAll('.btn-hapus');
-
-        tombolHapus.forEach(tombol => {
-            tombol.addEventListener('click', function(e) {
+        // Tombol hapus sekarang ada di dalam <form> masing-masing.
+        // SweetAlert cuma dipakai sebagai konfirmasi; begitu user klik "Ya, Hapus!",
+        // form-nya betulan di-submit ke server (bukan cuma dihilangkan dari layar).
+        document.querySelectorAll('.form-hapus-pengaduan').forEach(form => {
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                
-                // Mencari elemen pembungkus laporan (card) terdekat dari tombol yang diklik
-                const cardLaporan = this.closest('.shadow-lg'); 
 
                 Swal.fire({
                     title: 'Hapus Laporan Ini?',
                     text: "Tindakan ini tidak dapat dibatalkan. Laporan akan dihapus permanen dari sistem!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#EF4444', // Warna Merah Tailwind
-                    cancelButtonColor: '#6B7280', // Warna Abu-abu Tailwind
+                    confirmButtonColor: '#EF4444',
+                    cancelButtonColor: '#6B7280',
                     confirmButtonText: 'Ya, Hapus!',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Jika 'Ya' diklik, buat animasi memudar (fade out)
-                        cardLaporan.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-                        cardLaporan.style.opacity = "0";
-                        cardLaporan.style.transform = "scale(0.95)";
-                        
-                        // Hapus elemen HTML dari layar setelah animasi selesai
-                        setTimeout(() => {
-                            cardLaporan.remove();
-                            
-                            // Munculkan notifikasi sukses
-                            Swal.fire(
-                                'Terhapus!',
-                                'Data pengaduan berhasil dihapus dari panel.',
-                                'success'
-                            );
-                        }, 500);
+                        form.submit();
                     }
                 });
             });
         });
     </script>
+
+    <?php if (session()->getFlashdata('sukses')): ?>
+    <script>
+        Swal.fire({ title: 'Berhasil!', text: '<?= esc(session()->getFlashdata('sukses'), 'js') ?>', icon: 'success', confirmButtonColor: '#2563EB' });
+    </script>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('error')): ?>
+    <script>
+        Swal.fire({ title: 'Gagal', text: '<?= esc(session()->getFlashdata('error'), 'js') ?>', icon: 'error', confirmButtonColor: '#2563EB' });
+    </script>
+    <?php endif; ?>
 
     <script>
         const btnProses = document.getElementById('btnTabProses');

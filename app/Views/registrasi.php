@@ -26,15 +26,19 @@
             <h2 class="mt-4 text-gray-600 font-bold">Daftar Akun Baru</h2>
         </div>
 
-        <form action="/" method="GET">
+        <form action="/registrasi" method="POST">
+            <?= csrf_field() ?>
             <div class="mb-4">
-                <input type="text" required placeholder="Nama Lengkap" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                <input type="text" name="nama" required value="<?= old('nama') ?>" placeholder="Nama Lengkap" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
             </div>
             <div class="mb-4">
-                <input type="text" required placeholder="NIM / NIP" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                <input type="text" name="nomor_induk" required value="<?= old('nomor_induk') ?>" placeholder="NIM / NIP" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+            </div>
+            <div class="mb-4">
+                <input type="email" name="email" value="<?= old('email') ?>" placeholder="Email (opsional)" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
             </div>
             <div class="mb-6">
-                <input type="password" required placeholder="Buat Password" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                <input type="password" name="password" required minlength="6" placeholder="Buat Password (min. 6 karakter)" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
             </div>
             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-md transition duration-300">
                 Buat Akun
@@ -45,5 +49,17 @@
             <p class="text-gray-500 text-sm">Sudah punya akun? <a href="/" class="text-blue-700 font-semibold hover:underline">Log In di sini</a></p>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php if (session()->getFlashdata('error')): ?>
+    <script>
+        Swal.fire({
+            title: 'Registrasi Gagal',
+            text: '<?= esc(session()->getFlashdata('error'), 'js') ?>',
+            icon: 'error',
+            confirmButtonColor: '#2563EB'
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>

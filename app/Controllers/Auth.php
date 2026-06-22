@@ -16,7 +16,7 @@ class Auth extends BaseController
     /**
      * Menampilkan halaman login (route: GET /)
      */
-    public function index(): string
+    public function index(): mixed
     {
         // Kalau sudah login, jangan tampilkan login lagi, langsung lempar ke dashboard masing-masing.
         if (session()->get('logged_in')) {

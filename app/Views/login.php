@@ -39,17 +39,20 @@
         </div>
 
         <!-- Form Input -->
-        <form id="loginForm" action="#" method="GET">
+        <form id="loginForm" action="/login" method="POST">
+            <?= csrf_field() ?>
             <div class="mb-5">
-                <input id="username" type="text" required placeholder="Username / NIM" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                <input id="username" name="nomor_induk" type="text" required value="<?= old('nomor_induk') ?>" placeholder="Username / NIM" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
             </div>
             <div class="mb-6">
-                <input type="password" required placeholder="Password" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                <input name="password" type="password" required placeholder="Password" class="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
             </div>
-            <button type="button" onclick="prosesLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-md transition duration-300">
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-md transition duration-300">
                 Log In
             </button>
         </form>
+
+        <p class="text-center text-xs text-gray-400 mt-3">Akun demo: NIM <b>198012345678</b> / password <b>admin123</b> (admin), atau NIM <b>2410817210005</b> / password <b>mahasiswa123</b> (mahasiswa).</p>
 
         <div class="text-center mt-8 mb-2">
             <p class="text-gray-500 text-sm">Belum punya akun? <a href="/registrasi" class="text-blue-700 font-semibold hover:underline">Registrasi</a></p>
@@ -57,26 +60,26 @@
 
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php if (session()->getFlashdata('error')): ?>
     <script>
-        function prosesLogin() {
-            // Mengambil teks yang diketik di kolom username
-            var usernameInput = document.getElementById('username').value.trim().toLowerCase();
-            
-            // Mengecek isi kredensial
-            if (usernameInput === 'admin') {
-                // Jika ketik admin, arahkan ke rute admin
-                window.location.href = '/admin_dashboard';
-            } else if (usernameInput !== '') {
-                // Jika ketik selain admin (misal NIM), arahkan ke rute mahasiswa
-                window.location.href = '/dashboard';
-            } else {
-                // Jika kosong, munculkan peringatan
-                alert('Silakan isi Username / NIM terlebih dahulu!');
-            }
-        }
+        Swal.fire({
+            title: 'Gagal',
+            text: '<?= esc(session()->getFlashdata('error'), 'js') ?>',
+            icon: 'error',
+            confirmButtonColor: '#2563EB'
+        });
     </script>
-</body>
-</html>
-    </div>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('sukses')): ?>
+    <script>
+        Swal.fire({
+            title: 'Berhasil',
+            text: '<?= esc(session()->getFlashdata('sukses'), 'js') ?>',
+            icon: 'success',
+            confirmButtonColor: '#2563EB'
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>
