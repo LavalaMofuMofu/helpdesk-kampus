@@ -25,7 +25,7 @@
             <a href="/riwayat_laporan" class="hover:text-blue-200 transition-colors">Riwayat Laporan</a>
             <!-- Link Profil Mahasiswa -->
             <a href="/profil/mahasiswa" class="hover:text-blue-200 transition-colors">Profil</a>
-            <a href="/" class="hover:text-blue-200 transition-colors">Log Out</a>
+            <a href="/logout" class="hover:text-blue-200 transition-colors">Log Out</a>
         </div>
     </nav>
 
@@ -37,8 +37,9 @@
         <!-- Card Form -->
         <div class="bg-white w-full max-w-3xl rounded-xl shadow-2xl p-8 md:p-10">
             
-            <form id="formLaporan" action="" method="POST" enctype="multipart/form-data">
-                
+            <form id="formLaporan" action="/form_laporan" method="POST" enctype="multipart/form-data">
+                <?= csrf_field() ?>
+
                 <div class="mb-6 border-b pb-6 text-center">
                     <label class="block text-sm font-bold text-gray-800 mb-2 uppercase tracking-wide">Kategori Terpilih</label>
                     <div class="bg-blue-50 text-blue-800 font-semibold py-3 px-4 rounded-md border border-blue-200 inline-block min-w-[200px]">
@@ -50,25 +51,41 @@
 
                 <div class="mb-5">
                     <label class="block text-sm font-bold text-gray-700 mb-2">Tanggal Kejadian / Pengaduan</label>
-                    <input type="date" required class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow">
+                    <input type="date" name="tanggal_kejadian" required value="<?= old('tanggal_kejadian') ?>" class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow">
                 </div>
 
                 <div class="mb-5">
                     <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Laporan</label>
-                    <textarea rows="5" required placeholder="Jelaskan secara detail masalah yang terjadi..." class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow resize-y"></textarea>
+                    <textarea name="deskripsi" rows="5" required placeholder="Jelaskan secara detail masalah yang terjadi..." class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow resize-y"><?= old('deskripsi') ?></textarea>
                 </div>
 
                 <div class="mb-8">
                     <label class="block text-sm font-bold text-gray-700 mb-2">Unggah Bukti (Foto/Dokumen)</label>
-                    <div class="flex items-center justify-center w-full">
-                        <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6 text-gray-500">
+                    <div class="w-full">
+                        <label id="labelUpload" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                            <div id="uploadPlaceholder" class="flex flex-col items-center justify-center pt-5 pb-6 text-gray-500">
                                 <svg class="w-8 h-8 mb-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                                 <p class="mb-2 text-sm"><span class="font-semibold">Klik untuk unggah</span> atau seret file ke sini</p>
                                 <p class="text-xs">PNG, JPG, atau PDF (Maks. 2MB)</p>
                             </div>
-                            <input type="file" class="hidden" accept=".jpg, .jpeg, .png, .pdf" />
+                            <input type="file" id="inputFoto" name="foto" class="hidden" accept=".jpg, .jpeg, .png, .pdf" />
                         </label>
+
+                        <!-- Area preview, tersembunyi sampai file dipilih -->
+                        <div id="previewArea" class="hidden mt-3 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Preview Bukti</p>
+                                <button type="button" id="btnHapusFoto" class="text-xs text-red-500 hover:text-red-700 font-semibold">✕ Hapus</button>
+                            </div>
+                            <img id="previewImg" src="" alt="Preview foto" class="hidden max-h-56 w-auto rounded-md border border-gray-200 shadow-sm mx-auto">
+                            <div id="previewPdf" class="hidden flex items-center gap-3 p-3 bg-white rounded-md border border-gray-200">
+                                <svg class="w-8 h-8 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 13h8v1.5H8V13zm0 3h5v1.5H8V16zm0-6h3v1.5H8V10z"/></svg>
+                                <div>
+                                    <p id="pdfNama" class="text-sm font-semibold text-gray-700 truncate max-w-xs"></p>
+                                    <p id="pdfUkuran" class="text-xs text-gray-400"></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -92,26 +109,104 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        document.getElementById('formLaporan').addEventListener('submit', function(e) {
-            // Mencegah form memuat ulang halaman secara otomatis (karena masih prototipe UI)
-            e.preventDefault(); 
+        const inputFoto      = document.getElementById('inputFoto');
+        const labelUpload    = document.getElementById('labelUpload');
+        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+        const previewArea    = document.getElementById('previewArea');
+        const previewImg     = document.getElementById('previewImg');
+        const previewPdf     = document.getElementById('previewPdf');
+        const pdfNama        = document.getElementById('pdfNama');
+        const pdfUkuran      = document.getElementById('pdfUkuran');
+        const btnHapusFoto   = document.getElementById('btnHapusFoto');
 
-            // Memunculkan Pop-up SweetAlert
-            Swal.fire({
-                title: 'Laporan Terkirim!',
-                text: 'Terima kasih, laporan pengaduan Anda telah berhasil masuk ke sistem Helpdesk.',
-                icon: 'success',
-                confirmButtonColor: '#2563EB', // Warna senada dengan bg-blue-600 Tailwind
-                confirmButtonText: 'Lihat Riwayat Laporan',
-                allowOutsideClick: false // Mencegah pop-up tertutup jika user klik di luar area
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Jika tombol diklik, arahkan mahasiswa ke halaman riwayat laporan
-                    window.location.href = '/riwayat_laporan';
+        function formatUkuran(bytes) {
+            return bytes < 1024 * 1024
+                ? (bytes / 1024).toFixed(1) + ' KB'
+                : (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        function tampilkanPreview(file) {
+            if (!file) return;
+
+            previewArea.classList.remove('hidden');
+            // Kecilkan area drop jadi lebih compact kalau sudah ada file
+            labelUpload.classList.replace('h-32', 'h-14');
+            uploadPlaceholder.innerHTML = `
+                <p class="text-xs text-blue-600 font-semibold">📎 ${file.name}</p>
+                <p class="text-xs text-gray-400">Klik untuk ganti file</p>
+            `;
+
+            if (file.type === 'application/pdf') {
+                previewImg.classList.add('hidden');
+                previewPdf.classList.remove('hidden');
+                pdfNama.textContent = file.name;
+                pdfUkuran.textContent = formatUkuran(file.size);
+            } else {
+                previewPdf.classList.add('hidden');
+                previewImg.classList.remove('hidden');
+                const reader = new FileReader();
+                reader.onload = (e) => { previewImg.src = e.target.result; };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function resetUpload() {
+            inputFoto.value = '';
+            previewArea.classList.add('hidden');
+            previewImg.classList.add('hidden');
+            previewImg.src = '';
+            previewPdf.classList.add('hidden');
+            labelUpload.classList.replace('h-14', 'h-32');
+            uploadPlaceholder.innerHTML = `
+                <svg class="w-8 h-8 mb-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                <p class="mb-2 text-sm"><span class="font-semibold">Klik untuk unggah</span> atau seret file ke sini</p>
+                <p class="text-xs">PNG, JPG, atau PDF (Maks. 2MB)</p>
+            `;
+        }
+
+        inputFoto.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                if (file.size > 2 * 1024 * 1024) {
+                    Swal.fire({ title: 'File Terlalu Besar', text: 'Ukuran file maksimal 2MB.', icon: 'error', confirmButtonColor: '#2563EB' });
+                    resetUpload();
+                    return;
                 }
-            });
+                tampilkanPreview(file);
+            }
+        });
+
+        btnHapusFoto.addEventListener('click', resetUpload);
+
+        // Drag & drop support
+        const dropZone = labelUpload;
+        ['dragenter', 'dragover'].forEach(evt => {
+            dropZone.addEventListener(evt, (e) => { e.preventDefault(); dropZone.classList.add('border-blue-500', 'bg-blue-50'); });
+        });
+        ['dragleave', 'drop'].forEach(evt => {
+            dropZone.addEventListener(evt, (e) => { e.preventDefault(); dropZone.classList.remove('border-blue-500', 'bg-blue-50'); });
+        });
+        dropZone.addEventListener('drop', (e) => {
+            const file = e.dataTransfer.files[0];
+            if (!file) return;
+            // Set ke input supaya ikut tersubmit ke server
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            inputFoto.files = dt.files;
+            inputFoto.dispatchEvent(new Event('change'));
         });
     </script>
+
+    <?php if (session()->getFlashdata('error')): ?>
+    <script>
+        Swal.fire({
+            title: 'Gagal Mengirim',
+            text: '<?= esc(session()->getFlashdata('error'), 'js') ?>',
+            icon: 'error',
+            confirmButtonColor: '#2563EB'
+        });
+    </script>
+    <?php endif; ?>
 
 </body>
 </html>
