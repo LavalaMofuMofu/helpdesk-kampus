@@ -2,71 +2,55 @@
 
 namespace App\Controllers;
 
+use App\Models\UserModel;
+use App\Models\PengaduanModel;
+
 class Home extends BaseController
 {
-    public function index(): string
-    {
-        return view('login');
-    }
-
+    /**
+     * route: GET /dashboard
+     * Halaman pilihan kategori untuk mahasiswa. Isinya statis (7 kategori tetap),
+     * jadi tidak perlu data dari database.
+     */
     public function dashboard(): string
     {
         return view('dashboard');
     }
 
-    public function form_laporan(): string
+    /**
+     * route: GET /profil/(:segment)
+     * Catatan: segmen $role di URL ($1 dari Routes.php) sekarang hanya dipakai
+     * sebagai fallback kalau session somehow kosong. Sumber data sebenarnya
+     * adalah session user yang sedang login + query statistik dari database,
+     * BUKAN lagi data simulasi seperti sebelumnya.
+     */
+    public function profil($role = null): string
     {
-        // Menangkap teks kategori dari URL (default 'Kategori Umum' jika kosong)
-        $kategori_dipilih = $this->request->getGet('kategori') ?? 'Kategori Umum';
-        
-        // Membungkus datanya untuk dikirim ke View
+        $userModel      = new UserModel();
+        $pengaduanModel = new PengaduanModel();
+        $userId         = session()->get('user_id');
+
+        if (session()->get('role') === 'admin') {
+            // Untuk admin, statistik yang relevan adalah ringkasan SELURUH sistem,
+            // bukan punya admin itu sendiri (admin tidak membuat pengaduan).
+            $semua = $pengaduanModel->findAll();
+            $statistik = [
+                'total'   => count($semua),
+                'proses'  => count(array_filter($semua, fn ($p) => $p['status'] === 'proses')),
+                'selesai' => count(array_filter($semua, fn ($p) => $p['status'] === 'selesai')),
+            ];
+        } else {
+            $statistik = $userModel->hitungStatistikPengaduan($userId);
+        }
+
         $data = [
-            'kategori' => $kategori_dipilih
+            'nama'        => session()->get('nama'),
+            'role'        => session()->get('role'),
+            'nomor_induk' => session()->get('nomor_induk'),
+            'email'       => session()->get('email') ?: '-',
+            'statistik'   => $statistik,
         ];
-        
-        return view('form_laporan', $data);
-    }
 
-    public function riwayat_laporan(): string
-    {
-        return view('riwayat_laporan');
-    }
-
-    public function registrasi()
-    {
-        return view('registrasi');
-    }
-
-    public function adminDashboard()
-    {
-        return view('admin_dashboard');
-    }
-
-    public function adminTanggapan()
-    {
-        return view('admin_tanggapan');
-    }
-
-    public function dataTanggapan()
-    {
-        return view('data_tanggapan');
-    }
-
-    public function dataPengguna()
-    {
-        return view('data_pengguna');
-    }
-
-    public function profil($role)
-    {
-        // Simulasi data user yang sudah diperbaiki tanda kutip dan penamaannya
-        $data = [
-            'nama'        => ($role == 'admin') ? 'Administrator Kampus' : 'Muhammad Irgi Fahrezha',
-            'role'        => $role,
-            'nomor_induk' => ($role == 'admin') ? '198012345678' : '2410817210005',
-            'email'       => ($role == 'admin') ? 'admin@kampus.ac.id' : 'irgi@mhs.ac.id'
-        ];
-        
         return view('profil', $data);
     }
 }
