@@ -52,8 +52,6 @@
             </button>
         </form>
 
-        <p class="text-center text-xs text-gray-400 mt-3">Akun demo: NIM <b>198012345678</b> / password <b>admin123</b> (admin), atau NIM <b>2410817210005</b> / password <b>mahasiswa123</b> (mahasiswa).</p>
-
         <div class="text-center mt-8 mb-2">
             <p class="text-gray-500 text-sm">Belum punya akun? <a href="/registrasi" class="text-blue-700 font-semibold hover:underline">Registrasi</a></p>
         </div>
