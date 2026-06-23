@@ -1,66 +1,250 @@
 # Sistem Pengaduan Fasilitas Kampus (Helpdesk CI4) 🚀
 
-Sistem Pengaduan Fasilitas Kampus adalah aplikasi web berbasis CodeIgniter 4 yang memfasilitasi mahasiswa dalam melaporkan kerusakan fasilitas di lingkungan kampus. Proyek ini menggunakan arsitektur MVC (Model-View-Controller) dan dikembangkan sebagai tugas kolaboratif pengembangan web.
+Sistem Pengaduan Fasilitas Kampus adalah aplikasi web berbasis **CodeIgniter 4** yang memfasilitasi mahasiswa dalam melaporkan kerusakan atau permasalahan fasilitas di lingkungan kampus secara digital. Sebelum sistem ini ada, pengaduan hanya bisa dilakukan secara lisan atau manual — proses yang lambat, tidak terdokumentasi, dan sulit dipantau statusnya.
 
+Dengan aplikasi ini, mahasiswa dapat mengajukan laporan pengaduan lengkap dengan foto bukti kapan saja, sementara pihak admin kampus dapat merespons, memberikan tanggapan, dan memperbarui status penanganan secara real-time melalui panel yang terpusat.
 
-## Persyaratan Sistem
-
-Pastikan komputer yang digunakan sudah terpasang perangkat lunak berikut sebelum mulai pengerjaan:
-
-1. XAMPP atau Laragon untuk menjalankan server Apache dan MySQL secara lokal.
-2. Composer untuk mengelola pustaka PHP CodeIgniter.
-3. Git Bash atau Command Prompt untuk menjalankan perintah berbasis teks.
+Proyek ini dikembangkan sebagai tugas kolaboratif mata kuliah Pemrograman Web II menggunakan arsitektur **MVC (Model-View-Controller)** dan dikelola bersama menggunakan **Git** sebagai Version Control System.
 
 ---
 
-## Panduan Menjalankan Proyek Secara Lokal
+## 🌐 Demo Aplikasi
 
-Bagi anggota tim yang baru pertama kali mengunduh kode dari repositori ini, ikuti instruksi di bawah ini secara berurutan agar aplikasi dapat berjalan dengan normal di komputer masing-masing.
+Aplikasi dapat diakses secara online di:
+**https://mif.great-site.net**
 
-### 1. Mengunduh Repositori
-Buka terminal aplikasi Git Bash atau Command Prompt di dalam direktori `htdocs` (jika menggunakan XAMPP) atau `www` (jika menggunakan Laragon). Ketik perintah `git clone` diikuti dengan tautan URL repositori GitHub proyek ini (bisa disalin melalui tombol hijau 'Code' di GitHub), kemudian tekan enter. Setelah proses pengunduhan selesai, masuk ke dalam direktori proyek dengan mengetik perintah `cd helpdesk-kampus`.
-Atau bisa juga langsung clone dari VSCode nya
+| Role | NIM / Username | Password |
+|------|---------------|----------|
+| Admin | 198012345678 | admin123 |
+| Mahasiswa | 2410817210005 | mahasiswa123 |
 
-### 2. Menginstal Pustaka CodeIgniter
-Pustaka inti dari CodeIgniter tidak diunggah ke GitHub untuk menghemat ruang dan mencegah repositori menjadi berat. Jalankan perintah `composer install` pada terminal untuk mengunduh seluruh berkas pustaka yang dibutuhkan secara otomatis.
+---
 
-### 3. Mengatur Konfigurasi Lingkungan
-Cari berkas bernama `env.example` di dalam direktori utama proyek. Salin berkas tersebut dan ubah nama salinannya menjadi `.env`. Buka berkas `.env` tersebut menggunakan teks editor. Cari bagian `CI_ENVIRONMENT` dan ubah nilainya menjadi `development`. Selanjutnya, gulir ke bagian konfigurasi basis data dan sesuaikan nilainya menjadi seperti berikut:
+## Fitur Utama
 
+### Untuk Mahasiswa
+- **Registrasi & Login** — Membuat akun baru menggunakan NIM dan password
+- **Dashboard Kategori** — Memilih kategori pengaduan dari 7 kategori yang tersedia (Fasilitas Gedung, Lab Komputer, Wi-Fi, Kebersihan, dll.)
+- **Form Laporan** — Mengajukan laporan lengkap berisi tanggal kejadian, deskripsi detail, dan unggah foto bukti (JPG/PNG/PDF, maks. 2MB)
+- **Riwayat Laporan** — Memantau seluruh laporan yang pernah diajukan beserta status terkininya (Menunggu / Proses / Selesai)
+- **Profil** — Melihat data akun dan statistik ringkasan laporan pribadi
+
+### Untuk Admin
+- **Dashboard Pengaduan** — Memantau semua laporan masuk, dipisah antara yang sedang berjalan dan yang sudah selesai
+- **Tanggapan** — Memberikan respons tertulis atas laporan mahasiswa sekaligus memperbarui status penanganan
+- **Data Tanggapan** — Mengelola seluruh riwayat tanggapan yang pernah dikirim (edit & hapus)
+- **Data Pengguna** — Manajemen akun mahasiswa dan admin (tambah, edit, hapus) dengan proteksi agar admin tidak bisa menghapus akunnya sendiri
+
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+| Teknologi | Kegunaan |
+|-----------|----------|
+| PHP 8.3 | Bahasa pemrograman utama |
+| CodeIgniter 4.7 | Framework MVC backend |
+| MySQL | Database utama |
+| Tailwind CSS (CDN) | Styling antarmuka |
+| SweetAlert2 | Notifikasi interaktif |
+| Git & GitHub | Version control & kolaborasi |
+| InfinityFree | Hosting gratis untuk demo |
+
+---
+
+## 👥 Tim Pengembang & Pembagian Peran
+
+Proyek ini dikerjakan oleh 3 mahasiswa dengan pembagian peran yang jelas berdasarkan lapisan arsitektur MVC:
+
+---
+
+### Frontend & Database Awal
+
+**Tanggung jawab utama:**
+Merancang dan membangun seluruh antarmuka pengguna (UI) yang dapat dilihat dan diinteraksikan oleh pengguna, serta membangun fondasi struktur database proyek.
+
+**Yang dikerjakan (Frontend):**
+- Membangun 10 halaman View menggunakan Tailwind CSS:
+  - `login.php` — Halaman login dengan form autentikasi
+  - `registrasi.php` — Halaman pendaftaran akun baru
+  - `dashboard.php` — Halaman pilihan kategori laporan untuk mahasiswa
+  - `form_laporan.php` — Form pengajuan laporan dengan fitur preview foto sebelum upload
+  - `riwayat_laporan.php` — Halaman riwayat laporan mahasiswa dengan indikator status berwarna
+  - `profil.php` — Halaman profil pengguna dengan statistik laporan
+  - `admin_dashboard.php` — Panel admin untuk memantau laporan masuk
+  - `admin_tanggapan.php` — Form pemberian tanggapan oleh admin
+  - `data_tanggapan.php` — Tabel manajemen seluruh tanggapan
+  - `data_pengguna.php` — Tabel manajemen akun pengguna dengan modal tambah/edit
+
+**Yang dikerjakan (Database):**
+- Merancang dan mengimplementasikan Migration tabel `users` beserta `UserSeeder` (2 akun demo bawaan: admin & mahasiswa)
+- Membangun migrasi awal struktur tabel `pengaduan` dan `tanggapan` (dilengkapi oleh bagian Database)
+
+---
+
+### Backend (Controllers, Filters, Routing)
+
+**Tanggung jawab utama:**
+Membangun seluruh logika bisnis aplikasi — mulai dari proses autentikasi, penanganan request form, hingga pengaturan akses halaman berdasarkan role pengguna.
+
+**Yang dikerjakan:**
+
+**Controllers (4 file):**
+- `Auth.php` — Menangani proses login (verifikasi NIM + password hash), registrasi akun baru, dan logout (menghancurkan session)
+- `Home.php` — Menampilkan dashboard kategori (mahasiswa) dan halaman profil dengan data statistik real dari database
+- `Pengaduan.php` — Menangani submit form laporan termasuk proses upload dan penyimpanan foto bukti ke server, serta menampilkan riwayat laporan per mahasiswa
+- `Admin.php` — Menangani seluruh operasi panel admin: kelola pengaduan, kirim tanggapan, update status laporan, dan CRUD data pengguna
+
+**Filters (2 file):**
+- `AuthFilter.php` — Mencegah akses ke halaman yang membutuhkan login; otomatis redirect ke halaman login jika session belum ada
+- `AdminFilter.php` — Mencegah mahasiswa mengakses halaman admin; redirect ke dashboard mahasiswa jika role bukan admin
+
+**Konfigurasi:**
+- `Config/Filters.php` — Mendaftarkan filter `auth` dan `adminOnly`, serta mengaktifkan proteksi CSRF global
+- `Config/Routes.php` — Mendefinisikan seluruh routing aplikasi (GET & POST) dengan pengelompokan berdasarkan filter akses
+
+---
+
+### Database (Migrations & Models)
+
+**Tanggung jawab utama:**
+Merancang struktur database secara lengkap dan membangun lapisan Model sebagai jembatan antara Controller dan database.
+
+**Yang dikerjakan:**
+
+**Migrations (skema tabel):**
+- `2026-06-19-151922_Users` — Tabel `users`: id, nama, nomor_induk (unique), email, password (hash), role (admin/mahasiswa), timestamps
+- `2026-06-19-153339_Pengaduan` — Tabel `pengaduan`: id, user_id (FK ke users), kategori, tanggal_kejadian, deskripsi, foto, status (menunggu/proses/selesai), timestamps
+- `2026-06-19-153518_Tanggapan` — Tabel `tanggapan`: id, pengaduan_id (FK ke pengaduan), admin_id (FK ke users), isi_tanggapan, timestamps
+- `2026-06-22-000001_AlterPengaduanFotoToText` — Migrasi tambahan untuk mengubah kolom foto menjadi TEXT
+
+**Models (3 file):**
+- `UserModel.php` — Akses tabel users, validasi NIM unik saat insert/update (dengan placeholder `{id}` untuk update), fungsi pencarian user saat login, dan kalkulasi statistik pengaduan per mahasiswa
+- `PengaduanModel.php` — Akses tabel pengaduan, query join dengan nama pelapor untuk dashboard admin, filter riwayat per mahasiswa
+- `TanggapanModel.php` — Akses tabel tanggapan, query join dengan data pengaduan untuk halaman Data Tanggapan
+
+---
+
+## Struktur Direktori
+
+```
+helpdesk-kampus/
+├── app/
+│   ├── Config/
+│   │   ├── App.php          # Konfigurasi base URL
+│   │   ├── Filters.php      # Registrasi filter auth & adminOnly
+│   │   └── Routes.php       # Definisi seluruh routing aplikasi
+│   ├── Controllers/
+│   │   ├── Auth.php         # Login, registrasi, logout
+│   │   ├── Home.php         # Dashboard & profil
+│   │   ├── Pengaduan.php    # Form laporan & riwayat
+│   │   └── Admin.php        # Panel admin (CRUD)
+│   ├── Filters/
+│   │   ├── AuthFilter.php   # Proteksi halaman butuh login
+│   │   └── AdminFilter.php  # Proteksi halaman admin
+│   ├── Models/
+│   │   ├── UserModel.php
+│   │   ├── PengaduanModel.php
+│   │   └── TanggapanModel.php
+│   ├── Views/               # 10 halaman UI (Tailwind CSS)
+│   └── Database/
+│       ├── Migrations/      # 4 file migrasi tabel
+│       └── Seeds/
+│           └── UserSeeder.php
+├── public/
+│   ├── index.php            # Entry point aplikasi
+│   ├── .htaccess            # URL rewriting
+│   └── uploads/pengaduan/   # Folder penyimpanan foto bukti
+└── writable/                # Cache, log, session (auto-generated)
+```
+
+---
+
+## Cara Menjalankan Proyek Secara Lokal
+
+### Persyaratan
+- PHP >= 8.2
+- Composer
+- MySQL (via XAMPP atau Laragon)
+- Git
+
+### Langkah-langkah
+
+**1. Clone repositori**
+```bash
+git clone <URL_REPOSITORI_GITHUB>
+cd helpdesk-kampus
+```
+
+**2. Install dependensi**
+```bash
+composer install
+```
+
+**3. Konfigurasi environment**
+
+Salin file `env.example` menjadi `.env`:
+```bash
+cp env.example .env
+```
+
+Edit file `.env`:
 ```ini
+CI_ENVIRONMENT = development
+
 database.default.hostname = localhost
 database.default.database = db_helpdesk
 database.default.username = root
-database.default.password = 
+database.default.password =
 database.default.DBDriver = MySQLi
 ```
 
-### 4. Menyiapkan Basis Data Kosong
-Buka panel kontrol XAMPP atau Laragon dan jalankan layanan MySQL. Buka peramban web dan akses halaman localhost/phpmyadmin. Buat sebuah basis data baru dengan nama persis seperti yang tertulis di konfigurasi sebelumnya, yaitu db_helpdesk. Biarkan basis data tersebut kosong tanpa membuat tabel apa pun secara manual.
+**4. Buat database**
 
-### 5. Mengeksekusi Migrasi Basis Data
-Kembali ke terminal yang masih berada di dalam direktori proyek. Jalankan perintah php spark migrate untuk mengeksekusi skrip pembuat tabel. Perintah ini akan secara otomatis membuatkan seluruh struktur tabel beserta relasinya di dalam basis data lokal.
+Buka `localhost/phpmyadmin` → buat database baru bernama `db_helpdesk` (kosong, tanpa tabel).
 
-### 6. Menjalankan Server Lokal
-Jalankan perintah php spark serve pada terminal untuk menghidupkan server pengembangan CodeIgniter. Buka peramban web dan ketikkan alamat http://localhost:8080 untuk melihat tampilan aplikasi yang sudah berjalan.
+**5. Jalankan migrasi & seeder**
+```bash
+php spark migrate
+php spark db:seed UserSeeder
+```
 
-### Panduan Membuat Ruang Kerja (Branch) Baru di Git
-Sebelum mulai mengetik baris kode apa pun untuk proyek sistem pengaduan kita, Kita harus selalu membuat ruang kerja terpisah yang disebut dengan branch agar kode utama tidak rusak jika terjadi kesalahan. Langkah pertama yang paling krusial sebelum membuat ruang kerja baru adalah memastikan komputer kalian memiliki versi kode yang paling baru. Silakan buka terminal dan ketik perintah "git checkout main" untuk kembali ke jalur utama, lalu segera lanjutkan dengan mengetik "git pull origin main" untuk mengunduh semua pembaruan terakhir dari internet ke komputer kalian.
+**6. Jalankan server**
+```bash
+php spark serve
+```
 
-Setelah proses pengunduhan pembaruan tersebut selesai tanpa pesan kesalahan, sekarang saatnya kalian membuat ruang kerja milik kalian sendiri. Kalian cukup mengetikkan perintah "git checkout -b nama-fitur-kalian" di dalam terminal. Harap pastikan untuk mengganti bagian akhir perintah tersebut dengan nama tugas spesifik yang sedang kalian kerjakan agar mudah dikenali oleh tim, contohnya seperti mengetik "git checkout -b frontend-halaman-lapor" atau "git checkout -b backend-login-admin". Penggunaan tanda hubung sangat disarankan untuk menggantikan spasi pada penamaan cabang kalian.
+Buka browser → `http://localhost:8080`
 
-Begitu kalian menekan tombol enter setelah perintah pembuat cabang tadi, Git akan secara otomatis merakit ruang kerja baru tersebut dan langsung memindahkan posisi kalian ke dalamnya. Kalian bisa langsung membuka teks editor, mendesain antarmuka, atau meracik logika CodeIgniter dengan perasaan tenang. Segala bentuk perubahan kode, penambahan berkas, atau eksperimen eror yang kalian lakukan di ruang kerja baru ini akan sepenuhnya terisolasi dan sama sekali tidak akan mengganggu hasil kerja anggota tim lainnya.
+---
 
-### Panduan Mengirim Kode (Push) ke Repositori Tim
-Langkah pertama sebelum mengirim hasil kerja keras kalian ke repositori GitHub adalah memastikan bahwa kalian benar-benar sedang berada di dalam cabang kerja kalian sendiri dan bukan di cabang utama. Silakan ketik perintah "git status" di terminal untuk memverifikasi posisi cabang saat ini serta melihat daftar berkas apa saja yang sudah kalian ubah. Pastikan juga aplikasi CodeIgniter kita sudah berjalan tanpa kendala di komputer lokal kalian sebelum kode tersebut dikirim agar tidak error.
+## Panduan Git untuk Anggota Tim
 
-Setelah semua kode dipastikan aman, kalian harus memasukkan seluruh berkas yang mengalami perubahan tersebut ke dalam area persiapan Git. Eksekusi perintah "git add ." di dalam terminal kalian. Ingat bahwa tanda titik pada perintah tersebut sangat krusial karena ia bertugas menyapu bersih seluruh pembaruan kode, baik itu penambahan, pengubahan, maupun penghapusan berkas, untuk dimasukkan ke dalam satu paket pengiriman secara otomatis.
+### Sebelum mulai coding
+```bash
+git checkout main
+git pull origin main
+git checkout -b nama-fitur-kamu
+```
 
-Tahapan selanjutnya adalah memberikan identitas pada paket pengiriman tersebut agar rekan tim lain paham bagian apa yang baru saja diselesaikan. Jalankan perintah "git commit -m 'Isi pesan kalian di sini'". Pastikan kalian menuliskan pesan yang padat dan informatif di antara tanda kutip tersebut, misalnya dengan menulis "Menyelesaikan tampilan halaman riwayat pengaduan" atau "Memperbaiki celah keamanan pada fitur otentikasi login".
+### Setelah selesai coding
+```bash
+git status
+git add .
+git commit -m "Deskripsi singkat perubahan yang dibuat"
+git push origin nama-fitur-kamu
+```
 
-Puncak dari proses ini adalah meluncurkan paket kode yang sudah dilabeli tadi ke internet. Kalian hanya perlu menjalankan perintah "git push origin nama-cabang-kalian" pada terminal. Sangat penting untuk menyesuaikan bagian akhir perintah tersebut dengan nama cabang tempat kalian berada saat ini. Begitu kalian menekan enter dan terminal menunjukkan proses unggah telah rampung seratus persen, hasil kerja kalian sudah terjamin keamanannya di server GitHub. 
+Buat **Pull Request** di GitHub dari branch kamu ke `main`.
 
-### Aturan Kolaborasi Git
-- Selalu jalankan perintah git pull origin main setiap kali akan  mulai menulis kode agar mendapatkan pembaruan terbaru dari anggota tim lain dan mencegah bentrok kode.
-- Jangan pernah melakukan commit pada berkas .env untuk menjaga keamanan kata sandi basis data masing-masing anggota.
-- Berikan pesan commit yang jelas dan mendeskripsikan perubahan yang dibuat, contohnya: git commit -m "Membuat halaman login admin".
+### Aturan penting
+- Selalu `git pull origin main` sebelum mulai kerja
+- **Jangan pernah commit file `.env`** — berisi kredensial database pribadi
+- Tulis pesan commit yang jelas dan deskriptif
+- Jangan push langsung ke branch `main`
+
+---
+
+## 📝 Lisensi
+
+Proyek ini dikembangkan untuk keperluan akademik mata kuliah Pemrograman Web II.
