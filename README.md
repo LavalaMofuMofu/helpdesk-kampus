@@ -60,7 +60,7 @@ Proyek ini dikerjakan oleh 3 mahasiswa dengan pembagian peran yang jelas berdasa
 ### Frontend
 
 **Tanggung jawab utama:**
-Merancang dan membangun seluruh antarmuka pengguna (UI) yang dapat dilihat dan diinteraksikan oleh pengguna, serta membangun fondasi struktur database proyek.
+Merancang dan membangun seluruh antarmuka pengguna (UI) yang dapat dilihat dan diinteraksikan oleh pengguna.
 
 **Yang dikerjakan (Frontend):**
 - Membangun 10 halaman View menggunakan Tailwind CSS:
