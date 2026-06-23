@@ -11,7 +11,7 @@ Proyek ini dikembangkan sebagai tugas kolaboratif mata kuliah Pemrograman Web II
 ## 🌐 Demo Aplikasi
 
 Aplikasi dapat diakses secara online di:
-**https://mif.great-site.net**
+**http://helpdesk-kampus.mydiscussion.net/**
 
 | Role | NIM / Username | Password |
 |------|---------------|----------|
@@ -38,7 +38,7 @@ Aplikasi dapat diakses secara online di:
 
 ---
 
-## 🛠️ Teknologi yang Digunakan
+## Teknologi yang Digunakan
 
 | Teknologi | Kegunaan |
 |-----------|----------|
@@ -48,17 +48,16 @@ Aplikasi dapat diakses secara online di:
 | Tailwind CSS (CDN) | Styling antarmuka |
 | SweetAlert2 | Notifikasi interaktif |
 | Git & GitHub | Version control & kolaborasi |
-| InfinityFree | Hosting gratis untuk demo |
 
 ---
 
-## 👥 Tim Pengembang & Pembagian Peran
+## Tim Pengembang & Pembagian Peran
 
 Proyek ini dikerjakan oleh 3 mahasiswa dengan pembagian peran yang jelas berdasarkan lapisan arsitektur MVC:
 
 ---
 
-### Frontend & Database Awal
+### Frontend
 
 **Tanggung jawab utama:**
 Merancang dan membangun seluruh antarmuka pengguna (UI) yang dapat dilihat dan diinteraksikan oleh pengguna, serta membangun fondasi struktur database proyek.
@@ -75,10 +74,6 @@ Merancang dan membangun seluruh antarmuka pengguna (UI) yang dapat dilihat dan d
   - `admin_tanggapan.php` — Form pemberian tanggapan oleh admin
   - `data_tanggapan.php` — Tabel manajemen seluruh tanggapan
   - `data_pengguna.php` — Tabel manajemen akun pengguna dengan modal tambah/edit
-
-**Yang dikerjakan (Database):**
-- Merancang dan mengimplementasikan Migration tabel `users` beserta `UserSeeder` (2 akun demo bawaan: admin & mahasiswa)
-- Membangun migrasi awal struktur tabel `pengaduan` dan `tanggapan` (dilengkapi oleh bagian Database)
 
 ---
 
@@ -117,6 +112,9 @@ Merancang struktur database secara lengkap dan membangun lapisan Model sebagai j
 - `2026-06-19-153339_Pengaduan` — Tabel `pengaduan`: id, user_id (FK ke users), kategori, tanggal_kejadian, deskripsi, foto, status (menunggu/proses/selesai), timestamps
 - `2026-06-19-153518_Tanggapan` — Tabel `tanggapan`: id, pengaduan_id (FK ke pengaduan), admin_id (FK ke users), isi_tanggapan, timestamps
 - `2026-06-22-000001_AlterPengaduanFotoToText` — Migrasi tambahan untuk mengubah kolom foto menjadi TEXT
+- Merancang dan mengimplementasikan Migration tabel `users` beserta `UserSeeder` (2 akun demo bawaan: admin & mahasiswa)
+- Membangun migrasi awal struktur tabel `pengaduan` dan `tanggapan` (dilengkapi oleh bagian Database)
+
 
 **Models (3 file):**
 - `UserModel.php` — Akses tabel users, validasi NIM unik saat insert/update (dengan placeholder `{id}` untuk update), fungsi pencarian user saat login, dan kalkulasi statistik pengaduan per mahasiswa
